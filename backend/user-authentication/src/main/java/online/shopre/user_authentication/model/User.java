@@ -1,45 +1,65 @@
 package online.shopre.user_authentication.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 @Data
 @Entity
-public class User extends UserDetails {
+@AllArgsConstructor
+@Table(name = "users")
+public class User implements UserDetails {
 
     @Id
-    @GetMapping(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(nullable = false)
     private String name;
 
-    private int phoneno;
-
+    @Column(unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private String password;
+
+    @Column(unique = true)
+    private String phone;
+
+    private String address;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @Column(updatable = false,nullable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate(){
+        System.out.println("logged successfully");
+        this.createdAt = LocalDateTime.now();
+    }
+
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
     }
 
     @Override
     public String getPassword() {
-        return "";
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return this.email;
     }
 
     @Override
