@@ -16,6 +16,10 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public User createUser(User user){
+        return this.userRepository.save(user);
+    }
+
     public Optional<User> findByEmail(String email){
         return this.userRepository.findByEmail(email);
     }
