@@ -20,7 +20,7 @@ public class SecurityConfig {
                         auth ->
                                 auth.requestMatchers("/health")
                                         .permitAll() // allow without authentication
-                                        .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll() // 👈 signup allowed
+                                        .requestMatchers("/api/v1/auth/**").permitAll() // 👈 signup allowed
                                         .requestMatchers("/api/v1/users/**").authenticated() // require auth
                                         .anyRequest()
                                         .denyAll() // deny everything else (optional, for safety)
