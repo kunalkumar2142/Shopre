@@ -2,6 +2,7 @@ package online.shopre.user_authentication.config;
 
 import lombok.RequiredArgsConstructor;
 //import online.shopre.user_authentication.filter.JWTAuthenticationFilter;
+import online.shopre.user_authentication.filter.JWTAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,14 +15,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration // adding some rules
 @EnableWebSecurity // this is the rule now how auth is going to work
-//@RequiredArgsConstructor
 public class SecurityConfig {
 
-//    private final JWTAuthenticationFilter jwtAuthenticationFilter;
-//
-//    public SecurityConfig(JWTAuthenticationFilter jwtAuthenticationFilter) {
-//        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-//    }
+    private final JWTAuthenticationFilter jwtAuthenticationFilter;
+
+    public SecurityConfig(JWTAuthenticationFilter jwtAuthenticationFilter) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -34,7 +35,7 @@ public class SecurityConfig {
                                         .anyRequest()
                                         .denyAll() // deny everything else (optional, for safety)
                 )
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();
