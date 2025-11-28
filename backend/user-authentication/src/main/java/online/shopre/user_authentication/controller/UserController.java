@@ -4,6 +4,8 @@ import online.shopre.user_authentication.model.User;
 import online.shopre.user_authentication.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import java.util.Optional;
 
 
 @RestController
+@EnableMethodSecurity(prePostEnabled = true)
 @RequestMapping("/api/v1/users")
 public class UserController {
 
@@ -23,7 +26,9 @@ public class UserController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<User> createUser(@RequestBody User user) {
+        System.out.println("Recieved User: " + user.getName() + " " + user.getEmail());
         User createdUser = this.userService.createUser(user);
         return ResponseEntity.ok(createdUser);
     }
@@ -45,16 +50,13 @@ public class UserController {
 //        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 //    }
 
-
-
-//    @GetMapping("/{email}")
-//    public ResponseEntity<User> findByEmail(@PathVariable String email) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        User user = (User) authentication.getPrincipal();
-//        if (!user.getEmail().equals(email){
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-//        }
-//        return ResponseEntity.ok(user);
-//    }
-
+    @GetMapping("/{email}")
+    public ResponseEntity<User> findByEmail(@PathVariable String email) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        if (!user.getEmail().equals(email)){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok(user);
+    }
 }
