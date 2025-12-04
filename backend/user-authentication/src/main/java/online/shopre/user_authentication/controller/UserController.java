@@ -1,6 +1,8 @@
 package online.shopre.user_authentication.controller;
 
+import online.shopre.user_authentication.dao.SignUpRequest;
 import online.shopre.user_authentication.model.User;
+import online.shopre.user_authentication.service.AuthService;
 import online.shopre.user_authentication.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,16 +22,20 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+    private final AuthService authService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, AuthService authService) {
         this.userService = userService;
+        this.authService = authService;
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        System.out.println("Recieved User: " + user.getName() + " " + user.getEmail());
-        User createdUser = this.userService.createUser(user);
+        this.authService.registerUser(
+                new SignUpRequest(user.getName(), user.getEmail(), user.getPassword())
+        );
+        User createdUser = this.userService.findByEmail(user.getEmail()).orElseThrow();
         return ResponseEntity.ok(createdUser);
     }
 
