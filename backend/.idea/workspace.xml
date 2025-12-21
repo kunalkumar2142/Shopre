@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4457bfa-dd48-47d9-8716-75f00362a6e5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/product/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/src/main/java/online/shopre/product/dao/Response.java" beforeDir="false" afterPath="$PROJECT_DIR$/product/src/main/java/online/shopre/product/dao/Response.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user-authentication/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user-authentication/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-authentication/src/main/java/online/shopre/user_authentication/dao/AuthResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-authentication/src/main/java/online/shopre/user_authentication/dao/AuthResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-authentication/src/main/java/online/shopre/user_authentication/dao/SignInRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-authentication/src/main/java/online/shopre/user_authentication/dao/SignInRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-authentication/src/main/java/online/shopre/user_authentication/dao/SignUpRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-authentication/src/main/java/online/shopre/user_authentication/dao/SignUpRequest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,23 +69,36 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.annotationProcessors&quot;
   }
 }</component>
-  <component name="RunManager">
-    <configuration name="Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="online.shopre.user_authentication.Application" />
-      <module name="user-authentication" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="online.shopre.user_authentication.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+  <component name="RunManager" selected="Application.UserAuth">
+    <configuration name="ServiceDiscovery" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="online.shopre.service_discovery.ServiceDiscoveryApplication" />
+      <module name="service-discovery" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="UserAuth" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="online.shopre.user_authentication.Application" />
+      <module name="user-authentication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="productService" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="online.shopre.product.Application" />
+      <module name="product" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.productService" />
+      <item itemvalue="Application.ServiceDiscovery" />
+      <item itemvalue="Application.UserAuth" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Application" />
+        <item itemvalue="Application.product_service" />
       </list>
     </recent_temporary>
   </component>
