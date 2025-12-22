@@ -5,14 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4457bfa-dd48-47d9-8716-75f00362a6e5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/service-discovery/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/product/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product/src/main/java/online/shopre/product/dao/Response.java" beforeDir="false" afterPath="$PROJECT_DIR$/product/src/main/java/online/shopre/product/dao/Response.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-authentication/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user-authentication/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-authentication/src/main/java/online/shopre/user_authentication/dao/AuthResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-authentication/src/main/java/online/shopre/user_authentication/dao/AuthResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-authentication/src/main/java/online/shopre/user_authentication/dao/SignInRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-authentication/src/main/java/online/shopre/user_authentication/dao/SignInRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-authentication/src/main/java/online/shopre/user_authentication/dao/SignUpRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-authentication/src/main/java/online/shopre/user_authentication/dao/SignUpRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,8 +52,11 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Application.Application.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ServiceDiscovery.executor&quot;: &quot;Run&quot;,
     &quot;Application.ServiceDiscoveryApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.UserAuth.executor&quot;: &quot;Debug&quot;,
     &quot;Application.online.shopre.product.Application.executor&quot;: &quot;Run&quot;,
+    &quot;Application.productService.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.All in product.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.All in user-authentication.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -92,15 +90,10 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.productService" />
       <item itemvalue="Application.ServiceDiscovery" />
       <item itemvalue="Application.UserAuth" />
+      <item itemvalue="Application.productService" />
     </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.product_service" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

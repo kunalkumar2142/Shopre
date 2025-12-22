@@ -12,6 +12,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: postgres
     depends_on:
       - shopre-product-db
+      - shopre-service-discovery
     networks:
       - shopre-network
 
@@ -41,6 +42,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: postgres
     depends_on:
       - shopre-users-db
+      - shopre-service-discovery
     networks:
       - shopre-network
 
@@ -55,6 +57,15 @@ services:
       - "5441:5432"
     volumes:
       - shopre-users-db-data:/var/lib/postgresql/data
+    networks:
+      - shopre-network
+
+
+  shopre-service-discovery:
+    image: kunal2142/service-discovery
+    container_name: shopre-service-discovery
+    ports:
+      - "8761:8761"
     networks:
       - shopre-network
 
