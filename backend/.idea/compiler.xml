@@ -7,16 +7,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="shopre-api-gateway" />
         <module name="service-discovery" />
-      </profile>
-      <profile name="Annotation profile for User Authentication Service - shopre.online" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
-        </processorPath>
-        <module name="user-authentication" />
       </profile>
       <profile name="Annotation profile for Product Service - shopre.online" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -27,12 +19,23 @@
         </processorPath>
         <module name="product" />
       </profile>
+      <profile name="Annotation profile for User Authentication Service - shopre.online" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+        </processorPath>
+        <module name="user-authentication" />
+      </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="product" options="-parameters" />
       <module name="service-discovery" options="-parameters" />
+      <module name="shopre-api-gateway" options="-parameters" />
       <module name="user-authentication" options="-parameters" />
     </option>
   </component>
