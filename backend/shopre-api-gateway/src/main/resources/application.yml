@@ -18,11 +18,11 @@ spring:
             - Path=/api/v1/auth/**
 
         - id: shopre-user-authentication-service-public-routes
-          uri: lb://shopre-user-authentication-service
+          uri: lb://shopre-user-authentication
           predicates:
             - Path=/api/v1/users/**
 
         - id: shopre-product-service-public-routes
-          uri: lb://shopre-product-service
+          uri: lb://shopre-product
           predicates:
             - Path=/api/v1/products/**

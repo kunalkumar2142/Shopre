@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4457bfa-dd48-47d9-8716-75f00362a6e5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/service/filter/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/service/filter/JwtAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopre-api-gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/ShopreApiGatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/ShopreApiGatewayApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shopre-api-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -54,12 +56,13 @@
     "Application.Application.executor": "Run",
     "Application.ServiceDiscovery.executor": "Run",
     "Application.ServiceDiscoveryApplication.executor": "Run",
-    "Application.UserAuth.executor": "Run",
+    "Application.UserAuth.executor": "Coverage",
     "Application.api-gateway.executor": "Run",
     "Application.online.shopre.product.Application.executor": "Run",
     "Application.productService.executor": "Run",
     "JUnit.All in product.executor": "Run",
     "JUnit.All in user-authentication.executor": "Run",
+    "Maven.product [clean,package].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "master",
@@ -68,7 +71,12 @@
     "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.api-gateway">
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean package" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.UserAuth">
     <configuration name="ServiceDiscovery" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="online.shopre.service_discovery.ServiceDiscoveryApplication" />
       <module name="service-discovery" />
@@ -128,6 +136,12 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.ExceptionInInitializerError" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint enabled="true" type="java-exception" />
       </default-breakpoints>
