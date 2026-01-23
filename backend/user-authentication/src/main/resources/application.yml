@@ -1,6 +1,6 @@
 spring:
   application:
-    name: UserAuthenticationService
+    name: shopre-user-authentication-service
   profiles:
     active: local
 
