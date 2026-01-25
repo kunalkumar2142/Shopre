@@ -53,7 +53,7 @@ public class ProductController {
         return ResponseEntity.ok(new Response("product fetched successfully", product));
     }
 
-//
+
 //    @GetMapping("/products")
 //    public List<Product> getProducts(){
 //        return productService.getProducts();
