@@ -11,4 +11,6 @@ interface AuthContextType{
     logout: () => void;
 }
 
+const [authContext , setAuthContext]
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
