@@ -1,6 +1,8 @@
+import { signIn } from "@/api/auth";
 import type { SignInRequest } from "@/types/auth";
 import type { Usersession } from "@/types/user-session";
-import { createContext } from "react";
+import { LogIn } from "lucide-react";
+import { createContext, type ReactNode } from "react";
 
 interface AuthContextType{
     UserSession: Usersession | null;
@@ -11,6 +13,19 @@ interface AuthContextType{
     logout: () => void;
 }
 
-const [authContext , setAuthContext]
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const AuthProvider = ({ children } : { children : ReactNode }) => {
+
+    const login = async (SignInRequest : SignInRequest): Promise<boolean> => {
+        const response = await signIn(SignInRequest);
+        const {email,token,name} = response.data;
+        localStorage.setItem("userSession", JSON.stringify({email,token,name}));
+        return true;
+    };
+
+    const logout = async () => {
+
+    };
+}
