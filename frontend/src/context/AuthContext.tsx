@@ -1,8 +1,6 @@
 import { signIn } from "@/api/auth";
 import type { SignInRequest } from "@/types/auth";
 import type { Usersession } from "@/types/user-session";
-import { error } from "console";
-import { LogIn, LogOut } from "lucide-react";
 import { createContext, useContext, useState, type ReactNode } from "react";
 
 interface AuthContextType{
@@ -46,13 +44,14 @@ export const AuthProvider = ({ children } : { children : ReactNode }) => {
     };
 
     const logout = async () => {
-
+        setUserSession(null);
+        localStorage.removeItem("userSession");
     };
 
-    const value = = {
-        userSession,
+    const value = {
+        UserSession : userSession,
         isAuthenticated: !!userSession,
-        isAdmin: userSession ? getRoleFromToken(userSession.token) === "ADMIN",
+        isAdmin: userSession ? getRoleFromToken(userSession.token) === "ADMIN" : false,
         login,
         logout
     }
@@ -63,7 +62,7 @@ export const AuthProvider = ({ children } : { children : ReactNode }) => {
 export const UseAuth = (): AuthContextType => {
     const context = useContext(AuthContext);
     if(context === undefined){
-        throw new error("useauth must ued in AuthProvider")
+        throw new Error("useauth must ued in AuthProvider")
     }
     return context;
 }
