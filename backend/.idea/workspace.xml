@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="d4457bfa-dd48-47d9-8716-75f00362a6e5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/filter/RequireAdminRoleFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/filter/RequireAdminRoleFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/service/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/service/JwtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/context/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/context/AuthContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/types/user-session.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/types/user-session.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,28 +52,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Application.executor&quot;: &quot;Run&quot;,
-    &quot;Application.ServiceDiscovery.executor&quot;: &quot;Run&quot;,
-    &quot;Application.ServiceDiscoveryApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Application.UserAuth.executor&quot;: &quot;Run&quot;,
-    &quot;Application.api-gateway.executor&quot;: &quot;Run&quot;,
-    &quot;Application.online.shopre.product.Application.executor&quot;: &quot;Run&quot;,
-    &quot;Application.productService.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.All in product.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.All in user-authentication.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.product [clean,package].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/4002k/knight-rider/ecommerse-app/backend/shopre-api-gateway&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.annotationProcessors&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Application.executor": "Run",
+    "Application.ServiceDiscovery.executor": "Run",
+    "Application.ServiceDiscoveryApplication.executor": "Run",
+    "Application.UserAuth.executor": "Run",
+    "Application.api-gateway.executor": "Run",
+    "Application.online.shopre.product.Application.executor": "Run",
+    "Application.productService.executor": "Run",
+    "JUnit.All in product.executor": "Run",
+    "JUnit.All in user-authentication.executor": "Run",
+    "Maven.product [clean,package].executor": "Run",
+    "Maven.product [install,clean].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/4002k/knight-rider/ecommerse-app/backend/shopre-api-gateway",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors"
   }
-}</component>
+}]]></component>
   <component name="RunAnythingCache">
     <option name="myCommands">
+      <command value="mvn install clean" />
       <command value="mvn clean package" />
     </option>
   </component>

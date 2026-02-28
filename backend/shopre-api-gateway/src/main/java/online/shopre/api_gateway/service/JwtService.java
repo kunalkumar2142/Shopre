@@ -72,9 +72,12 @@ public class JwtService {
 //        return isTokenExpired(token);
 //    }
 
-    public boolean validateToken(String token) {
-        extractAllClaims(token);
-        return isTokenExpired(token);
+    public boolean ValidateToken(String token) {
+        try {
+            return !isTokenExpired(token);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }
