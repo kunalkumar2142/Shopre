@@ -2,7 +2,7 @@ import { Button } from '../components/ui/button'
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"
 
-const SignIn = () => {
+const SingIn = () => {
     const navigate = useNavigate();
     const { login } = useAuth();
     const handleLogin = async () => {
@@ -21,4 +21,4 @@ const SignIn = () => {
     return <Button onClick={handleLogin}>SignIn</Button>
 };
 
-export default SignIn;
+export default SingIn;
