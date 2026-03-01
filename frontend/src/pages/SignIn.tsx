@@ -1,11 +1,10 @@
-import React from "react";
 import { Button } from '../components/ui/button'
 import { useNavigate } from "react-router-dom";
-import { UseAuth, useAuth } from "../context/AuthContext"
+import { useAuth } from "../context/AuthContext"
 
-const SingIn = () => {
+const SignIn = () => {
     const navigate = useNavigate();
-    const { login } = UseAuth();
+    const { login } = useAuth();
     const handleLogin = async () => {
         const sucess = await login({
             email : "rahul.kumar@gmail.com",
@@ -22,4 +21,4 @@ const SingIn = () => {
     return <Button onClick={handleLogin}>SignIn</Button>
 };
 
-export default SingIn;
+export default SignIn;
