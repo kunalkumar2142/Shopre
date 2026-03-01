@@ -2,7 +2,7 @@ import { Button } from '../components/ui/button'
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"
 
-const SingIn = () => {
+const SignIn = () => {
     const navigate = useNavigate();
     const { login } = useAuth();
     const handleLogin = async () => {
@@ -15,10 +15,10 @@ const SingIn = () => {
             navigate('/dashboard');
         }
         else{
-            navigate('/signIn');
+            navigate('/signin');
         }
     } 
     return <Button onClick={handleLogin}>SignIn</Button>
 };
 
-export default SingIn;
+export default SignIn;
