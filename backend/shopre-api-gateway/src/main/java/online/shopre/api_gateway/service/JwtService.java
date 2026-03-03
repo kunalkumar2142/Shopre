@@ -31,10 +31,6 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public boolean validateToken(String token) {
-        extractAllClaims(token);
-        return isTokenExpired(token);
-    }
 
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
@@ -70,5 +66,18 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
+
+//    public boolean ValidateToken(String token) {
+//        extractAllClaims(token);
+//        return isTokenExpired(token);
+//    }
+
+    public boolean ValidateToken(String token) {
+        try {
+            return !isTokenExpired(token);
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
 }

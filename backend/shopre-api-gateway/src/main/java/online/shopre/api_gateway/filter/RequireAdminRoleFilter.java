@@ -25,7 +25,7 @@ public class RequireAdminRoleFilter extends AbstractGatewayFilterFactory<Require
             }
 
             String token = authorizationHeader.substring(7);
-            if(!jwtService.validateToken(token)) {
+            if(!jwtService.ValidateToken(token)) {
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete();
             }
