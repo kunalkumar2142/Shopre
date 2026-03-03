@@ -31,5 +31,3 @@ spring:
           uri: lb://shopre-product-service
           predicates:
             - Path=/api/v1/admin/products/**
-          filters:
-            - RequireAdminRoleFilter
