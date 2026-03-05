@@ -6,19 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="d4457bfa-dd48-47d9-8716-75f00362a6e5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/product/src/main/java/online/shopre/product/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/product/src/main/java/online/shopre/product/controller/ProductController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/product/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/product/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/filter/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/filter/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/service/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/service/JwtService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopre-api-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/src/main/resources/application.yml" afterDir="false" />
-=======
       <change beforePath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/filter/RequireAdminRoleFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/filter/RequireAdminRoleFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/service/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/service/JwtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopre-api-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/context/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/context/AuthContext.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/types/user-session.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/types/user-session.ts" afterDir="false" />
->>>>>>> e7805fc83380f7b1792e594d9c1c6c1bf2ab9318
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
