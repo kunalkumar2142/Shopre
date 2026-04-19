@@ -5,18 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4457bfa-dd48-47d9-8716-75f00362a6e5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/product/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-discovery/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/service-discovery/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-discovery/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/service-discovery/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopre-api-gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/filter/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/filter/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/filter/RequireAdminRoleFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/filter/RequireAdminRoleFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shopre-api-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-authentication/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user-authentication/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/Home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-authentication/src/main/java/online/shopre/user_authentication/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-authentication/src/main/java/online/shopre/user_authentication/controller/AuthController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
