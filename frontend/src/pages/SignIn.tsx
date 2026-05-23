@@ -10,8 +10,17 @@ import { Link } from "react-router-dom";import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useState } from "react";
 
 export function SignIn() {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = () => {
+    console.log(email + ":" + password);
+  }
+
   return (
     <div className="flex justify-center item-center min-h-[100v]">
     <Card className="w-full max-w-sm">
@@ -32,9 +41,11 @@ export function SignIn() {
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
+                value = {email}
                 id="email"
                 type="email"
                 placeholder="m@example.com"
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
@@ -48,13 +59,13 @@ export function SignIn() {
                   Forgot your password?
                 </a>
               </div>
-              <Input id="password" type="password" required />
+              <Input value={password} onChange={(e) => setPassword(e.target.value)} id="password" type="password" required />
             </div>
           </div>
         </form>
       </CardContent>
       <CardFooter className="flex-col gap-2">
-        <Button type="submit" className="w-full">
+        <Button onClick={handleLogin} type="submit" className="w-full">
           Login
         </Button>
         <Button variant="outline" className="w-full">
