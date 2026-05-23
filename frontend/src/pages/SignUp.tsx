@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
-import { Link } from "react-router-dom";import {
+import { Link } from "react-router-dom";
+import {
   Card,
   CardAction,
   CardContent,
@@ -11,24 +12,33 @@ import { Link } from "react-router-dom";import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-export function SignIn() {
+export function SignUp() {
   return (
     <div className="flex justify-center item-center min-h-[100v]">
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Login to your account</CardTitle>
+        <CardTitle>SignUp to shopre</CardTitle>
         <CardDescription>
-          Enter your email below to login to your account
+          Enter your name, email below to SignUp on shopre
         </CardDescription>
         <CardAction>
-            <Link to="/signup">
-                <Button variant="link">Sign Up</Button>
+          <Link to="/signin">
+                <Button variant="link">Sign In</Button>
             </Link>
         </CardAction>
       </CardHeader>
       <CardContent>
         <form>
           <div className="flex flex-col gap-6">
+            <div className="grid gap-2">
+              <Label htmlFor="email">Name</Label>
+              <Input
+                id="name"
+                type="text"
+                placeholder="john"
+                required
+              />
+            </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -55,10 +65,10 @@ export function SignIn() {
       </CardContent>
       <CardFooter className="flex-col gap-2">
         <Button type="submit" className="w-full">
-          Login
+          SignUp
         </Button>
         <Button variant="outline" className="w-full">
-          Login with Google
+          SignUp with Google
         </Button>
       </CardFooter>
     </Card>
