@@ -32,8 +32,8 @@ export const AuthProvider = ({ children } : { children : ReactNode }) => {
     const login = async (SignInRequest : SignInRequest): Promise<boolean> => {
         try{
             const response = await signIn(SignInRequest);
-            const {email,token,name} = response.data;
-            const session = {email, token, name}
+            const {token} = response.data;
+            const session = {token}
             localStorage.setItem(
                 "userSession", 
                 JSON.stringify(session)
