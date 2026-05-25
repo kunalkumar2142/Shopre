@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Link } from "react-router-dom";import {
+import { Link, useNavigate } from "react-router-dom";import {
   Card,
   CardAction,
   CardContent,
@@ -11,14 +11,24 @@ import { Link } from "react-router-dom";import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 export function SignIn() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const handleLogin = () => {
-    console.log(email + ":" + password);
+  const handleLogin = async() => {
+    try{
+      const success = await login({email, password});
+      if(success) navigate("/dashboard");
+      else navigate("/");
+    } catch(error) {
+      navigate("/signin");
+    }
+    
   }
 
   return (

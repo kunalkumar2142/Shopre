@@ -6,9 +6,16 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { useAuth } from "@/context/AuthContext";
 import { Link } from "react-router-dom";
+import { Button } from "../ui/button";
 
 const Navbar = () => {
+  const {isAuthenticated, logout} = useAuth();
+  const handleLogout = async() => {
+    await logout();
+  }
+
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -39,9 +46,20 @@ const Navbar = () => {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink asChild>
-            <Link to="/signin">SignIn</Link>
-          </NavigationMenuLink>
+          {isAuthenticated ? (
+            <>
+              <NavigationMenuLink asChild>
+                <Button onClick={handleLogout}>Logout</Button>
+              </NavigationMenuLink>
+            </>
+            ) : (
+            <>
+              <NavigationMenuLink asChild>
+                <Link to="/signin">SignIn</Link>
+              </NavigationMenuLink>
+            </>
+            )}
+          
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>

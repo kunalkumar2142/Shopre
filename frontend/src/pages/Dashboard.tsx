@@ -1,7 +1,10 @@
+import Navbar from "@/components/layout/Navbar";
+
 const Dashboard = () => {
     return (
     <div>
-        <h1>Welcome to Dashboard!!</h1>
+        <Navbar />
+        {/* <h1>Welcome to Dashboard!!</h1> */}
     </div>
     );
 };
