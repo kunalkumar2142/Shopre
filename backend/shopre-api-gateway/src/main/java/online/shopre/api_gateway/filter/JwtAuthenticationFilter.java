@@ -40,25 +40,21 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
             return exchange.getResponse().setComplete();
         }
 
-        //  Extract userId from token payload
+        // Add X-USER-ID when present in token (optional claim)
         String userId = jwtService.extractUserId(token);
-        if (userId == null) {
-            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-            return exchange.getResponse().setComplete();
+        ServerWebExchange exchangeToUse = exchange;
+        if (userId != null) {
+            var mutatedRequest = exchange.getRequest()
+                    .mutate()
+                    .headers(httpHeaders -> {
+                        httpHeaders.remove("X-USER-ID");
+                        httpHeaders.add("X-USER-ID", userId);
+                    })
+                    .build();
+            exchangeToUse = exchange.mutate().request(mutatedRequest).build();
         }
 
-        //  Add X-USER-ID
-        var mutatedRequest = exchange.getRequest()
-                .mutate()
-                .headers(httpHeaders -> {
-                    httpHeaders.remove("X-USER-ID");      // Remove if someone tried to spoof
-                    httpHeaders.add("X-USER-ID", userId); // Add real userId from token
-                })
-                .build();
-
-        var mutatedExchange = exchange.mutate().request(mutatedRequest).build();
-
-        return chain.filter(mutatedExchange);
+        return chain.filter(exchangeToUse);
 //        return chain.filter(exchange);
     }
 
