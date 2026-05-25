@@ -5,11 +5,10 @@ import Footer from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
-import { getEmailFromToken } from "@/lib/auth-utils";
+import { formatUserDisplayName } from "@/lib/auth-utils";
 
 const Dashboard = () => {
-  const { UserSession, isAuthenticated } = useAuth();
-  const email = UserSession ? getEmailFromToken(UserSession.token) : null;
+  const { currentUser, isAuthenticated } = useAuth();
 
   return (
     <div className="flex min-h-screen flex-col bg-slate-50">
@@ -17,8 +16,8 @@ const Dashboard = () => {
       <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-10 sm:px-6 lg:px-8">
         <h1 className="text-2xl font-bold tracking-tight">My profile</h1>
         <p className="mt-1 text-muted-foreground">
-          {isAuthenticated && email
-            ? `Signed in as ${email}`
+          {isAuthenticated && currentUser
+            ? `Signed in as ${formatUserDisplayName(currentUser.name, currentUser.email)}`
             : "Sign in to manage your Shopre account."}
         </p>
 

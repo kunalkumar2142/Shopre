@@ -10,18 +10,30 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/context/AuthContext";
-import { getEmailFromToken, getInitialsFromEmail } from "@/lib/auth-utils";
+import {
+  formatUserDisplayName,
+  getEmailFromToken,
+  getInitialsFromEmail,
+  getInitialsFromName,
+} from "@/lib/auth-utils";
 import { LogOut, Package, ShoppingCart, User } from "lucide-react";
 import { toast } from "sonner";
 
 const UserMenu = () => {
-  const { UserSession, logout } = useAuth();
+  const { UserSession, currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const email = UserSession ? getEmailFromToken(UserSession.token) : null;
-  const initials = email ? getInitialsFromEmail(email) : "SR";
+  const email =
+    currentUser?.email ??
+    (UserSession ? getEmailFromToken(UserSession.token) : null);
+  const displayName = formatUserDisplayName(currentUser?.name, email);
+  const initials = currentUser?.name
+    ? getInitialsFromName(currentUser.name)
+    : email
+      ? getInitialsFromEmail(email)
+      : "SR";
 
   const handleEnter = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -61,7 +73,7 @@ const UserMenu = () => {
           onMouseLeave={handleLeave}
         >
           <DropdownMenuLabel className="font-normal">
-            <p className="text-sm font-medium">My account</p>
+            <p className="text-sm font-medium">{displayName}</p>
             {email && (
               <p className="truncate text-xs text-muted-foreground">{email}</p>
             )}
