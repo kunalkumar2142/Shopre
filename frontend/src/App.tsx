@@ -5,6 +5,7 @@ import { AuthProvider } from './context/AuthContext'
 import Dashboard from './pages/Dashboard'
 import { SignIn } from './pages/SignIn'
 import { SignUp } from './pages/SignUp'
+import { Toaster } from '@/components/ui/sonner'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/dashboard' element={<Dashboard />} />
         </Routes>
+        <Toaster richColors closeButton position="top-right" />
       </BrowserRouter>
     </AuthProvider>
   )
