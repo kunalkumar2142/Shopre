@@ -5,15 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4457bfa-dd48-47d9-8716-75f00362a6e5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/filter/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/filter/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/apis/auth.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/layout/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/layout/Footer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/layout/UserMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/layout/UserMenu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/context/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/context/AuthContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/data/home-data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/data/home-data.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/lib/auth-utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/lib/auth-utils.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/Dashboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/service/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/src/main/java/online/shopre/api_gateway/service/JwtService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,35 +54,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Application.executor": "Run",
-    "Application.ServiceDiscovery.executor": "Run",
-    "Application.ServiceDiscoveryApplication.executor": "Run",
-    "Application.UserAuth.executor": "Run",
-    "Application.api-gateway.executor": "Run",
-    "Application.online.shopre.product.Application.executor": "Run",
-    "Application.productService.executor": "Run",
-    "JUnit.All in product.executor": "Run",
-    "JUnit.All in user-authentication.executor": "Run",
-    "Maven.product [clean,package].executor": "Run",
-    "Maven.product [clean].executor": "Run",
-    "Maven.product [install,clean].executor": "Run",
-    "Maven.product [install].executor": "Run",
-    "Maven.user-authentication [clean,package].executor": "Run",
-    "Maven.user-authentication [clean].executor": "Run",
-    "Maven.user-authentication [install,clean].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/4002k/knight-rider/ecommerse-app/backend/shopre-api-gateway",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Application.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ServiceDiscovery.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ServiceDiscoveryApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.UserAuth.executor&quot;: &quot;Run&quot;,
+    &quot;Application.api-gateway.executor&quot;: &quot;Run&quot;,
+    &quot;Application.online.shopre.product.Application.executor&quot;: &quot;Run&quot;,
+    &quot;Application.productService.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.All in product.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.All in user-authentication.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.product [clean,package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.product [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.product [install,clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.product [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.user-authentication [clean,package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.user-authentication [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.user-authentication [install,clean].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/4002k/knight-rider/ecommerse-app/backend/order-and-cart-management&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
-}]]></component>
+}</component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn install clean" />
@@ -95,7 +91,7 @@
       <command value="mvn install" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.productService">
+  <component name="RunManager" selected="Application.UserAuth">
     <configuration name="ServiceDiscovery" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="online.shopre.service_discovery.ServiceDiscoveryApplication" />
       <module name="service-discovery" />
@@ -117,6 +113,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="order-and-cart" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="online.shopre.order_and_cart_management.OrderAndCartManagementApplication" />
+      <module name="order-and-cart-management" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="productService" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="online.shopre.product.Application" />
       <module name="product" />
@@ -127,6 +130,7 @@
     <list>
       <item itemvalue="Application.ServiceDiscovery" />
       <item itemvalue="Application.UserAuth" />
+      <item itemvalue="Application.order-and-cart" />
       <item itemvalue="Application.api-gateway" />
       <item itemvalue="Application.productService" />
     </list>

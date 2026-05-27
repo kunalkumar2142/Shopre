@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="shopre-api-gateway" />
+        <module name="order-and-cart-management" />
         <module name="service-discovery" />
       </profile>
       <profile name="Annotation profile for Product Service - shopre.online" enabled="true">
@@ -33,6 +34,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="order-and-cart-management" options="-parameters" />
       <module name="product" options="-parameters" />
       <module name="service-discovery" options="-parameters" />
       <module name="shopre-api-gateway" options="-parameters" />
