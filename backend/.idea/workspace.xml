@@ -5,11 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4457bfa-dd48-47d9-8716-75f00362a6e5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/dto/AddToCartRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/dto/AddToCartResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/repository/CartRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/service/CartService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/controller/CartController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/resources/application-local.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/OrderAndCartManagementApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/OrderAndCartManagementApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/dto/AddToCartRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/dto/AddToCartRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/dto/AddToCartResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/dto/AddToCartResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/repository/CartItemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/repository/CartItemRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/service/CartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/src/main/java/online/shopre/product/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/product/src/main/java/online/shopre/product/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-authentication/src/main/java/online/shopre/user_authentication/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-authentication/src/main/java/online/shopre/user_authentication/Application.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +69,7 @@
     "Application.UserAuth.executor": "Run",
     "Application.api-gateway.executor": "Run",
     "Application.online.shopre.product.Application.executor": "Run",
+    "Application.order-and-cart.executor": "Run",
     "Application.productService.executor": "Run",
     "JUnit.All in product.executor": "Run",
     "JUnit.All in user-authentication.executor": "Run",
@@ -92,7 +99,7 @@
       <command value="mvn install" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.UserAuth">
+  <component name="RunManager" selected="Application.order-and-cart">
     <configuration name="ServiceDiscovery" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="online.shopre.service_discovery.ServiceDiscoveryApplication" />
       <module name="service-discovery" />
