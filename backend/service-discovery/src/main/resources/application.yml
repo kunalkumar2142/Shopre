@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: service-discovery
+    name: shopre-service-discovery
 
 eureka:
   client:

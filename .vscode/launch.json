@@ -1,0 +1,49 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "OrderAndCartManagementApplication",
+            "request": "launch",
+            "mainClass": "online.shopre.order_and_cart_management.OrderAndCartManagementApplication",
+            "projectName": "order-and-cart-managment"
+        },
+        {
+            "type": "java",
+            "name": "Application",
+            "request": "launch",
+            "mainClass": "online.shopre.product.Application",
+            "projectName": "product"
+        },
+        {
+            "type": "java",
+            "name": "ServiceDiscoveryApplication",
+            "request": "launch",
+            "mainClass": "online.shopre.service_discovery.ServiceDiscoveryApplication",
+            "projectName": "service-discovery"
+        },
+        {
+            "type": "java",
+            "name": "ShopreApiGatewayApplication",
+            "request": "launch",
+            "mainClass": "online.shopre.api_gateway.ShopreApiGatewayApplication",
+            "projectName": "shopre-api-gateway"
+        },
+        {
+            "type": "java",
+            "name": "Application(1)",
+            "request": "launch",
+            "mainClass": "online.shopre.user_authentication.Application",
+            "projectName": "user-authentication"
+        }
+    ]
+}
