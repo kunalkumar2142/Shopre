@@ -32,7 +32,7 @@ public class CartService {
             return cartRepository.save(newCart);
         });
 
-        CartItem cartItem = cartItemRepository.findByCartAndProductId(cart.getId(), request.getProductId()).orElseGet(() -> {
+        CartItem cartItem = cartItemRepository.findByCartAndProductId(cart, request.getProductId()).orElseGet(() -> {
            CartItem newCartItem = new CartItem();
             newCartItem.setCart(cart);
             newCartItem.setProductId(request.getProductId());
