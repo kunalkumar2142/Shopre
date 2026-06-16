@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4457bfa-dd48-47d9-8716-75f00362a6e5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/exception/BadRequestException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/exception/GlobalExceptionHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-and-cart-management/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/order-and-cart-management/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/service/CartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopre-api-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +91,7 @@
       <command value="mvn install" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.productService">
+  <component name="RunManager" selected="Application.api-gateway">
     <configuration name="ServiceDiscovery" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="online.shopre.service_discovery.ServiceDiscoveryApplication" />
       <module name="service-discovery" />

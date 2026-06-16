@@ -36,12 +36,12 @@ spring:
           # Dedupe just in case anything else adds CORS headers
           - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin, RETAIN_FIRST
       routes:
-        - id: shopre-auth-public-routes
+        - id: shopre-user-authentication-service-public-routes
           uri: lb://shopre-user-authentication-service
           predicates:
             - Path=/api/v1/auth/**
 
-        - id: shopre-user-public-routes
+        - id: shopre-user-authentication-service-private-routes
           uri: lb://shopre-user-authentication-service
           predicates:
             - Path=/api/v1/users/**
@@ -51,7 +51,14 @@ spring:
           predicates:
             - Path=/api/v1/products/**
 
-        - id: shopre-product-service-public-admin-routes
+        - id: shopre-product-service-private-admin-routes
           uri: lb://shopre-product-service
           predicates:
             - Path=/api/v1/admin/products/**
+          filters:
+            - RequireAdminRoleFilter
+
+        - id: shopre-cart-management-service-routes
+          uri: lb://shopre-order-and-cart-management-service
+          predicates:
+            - Path=/api/v1/cart/**
