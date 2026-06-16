@@ -1,9 +1,10 @@
 package online.shopre.order_and_cart_management.service;
 
-import jakarta.ws.rs.BadRequestException;
+//import jakarta.ws.rs.BadRequestException;
 import lombok.AllArgsConstructor;
 import online.shopre.order_and_cart_management.dto.AddToCartRequest;
 import online.shopre.order_and_cart_management.dto.AddToCartResponse;
+import online.shopre.order_and_cart_management.exception.BadRequestException;
 import online.shopre.order_and_cart_management.model.Cart;
 import online.shopre.order_and_cart_management.model.CartItem;
 import online.shopre.order_and_cart_management.repository.CartItemRepository;
