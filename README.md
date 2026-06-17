@@ -106,7 +106,7 @@ Shopre follows a decoupled microservices architecture where each domain service 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/shopre.git
+git clone https://github.com/kunalkumar2142/shopre.git
 cd shopre
 ```
 
