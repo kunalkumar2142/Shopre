@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d4457bfa-dd48-47d9-8716-75f00362a6e5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/service/CartService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shopre-api-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/shopre-api-gateway/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -32,12 +31,12 @@
     &quot;assignee&quot;: &quot;kunalkumar2142&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/kunalkumar2142/Shopre.git",
-    "accountId": "87a6f7ff-b746-4d83-84ee-b7e90e42b280"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/kunalkumar2142/Shopre.git&quot;,
+    &quot;accountId&quot;: &quot;87a6f7ff-b746-4d83-84ee-b7e90e42b280&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$PROJECT_DIR$/../../../../../Program Files/Java/jdk-17/lib/src.zip!/java.base/java/lang/ClassLoader.java" root0="SKIP_INSPECTION" />
   </component>
