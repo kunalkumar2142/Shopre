@@ -1,6 +1,5 @@
 package online.shopre.api_gateway.filter;
 
-import online.shopre.api_gateway.service.JwtService;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -8,6 +7,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
+
+import online.shopre.api_gateway.service.JwtService;
 import reactor.core.publisher.Mono;
 
 @Component
@@ -42,20 +43,18 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
 
         // Add X-USER-ID when present in token (optional claim)
         String userId = jwtService.extractUserId(token);
-        ServerWebExchange exchangeToUse = exchange;
-        if (userId != null) {
-            var mutatedRequest = exchange.getRequest()
-                    .mutate()
-                    .headers(httpHeaders -> {
+        ServerWebExchange mutatedExchange = exchange.mutate()
+                .request(builder -> {
+                    builder.headers(httpHeaders -> {
                         httpHeaders.remove("X-USER-ID");
-                        httpHeaders.add("X-USER-ID", userId);
-                    })
-                    .build();
-            exchangeToUse = exchange.mutate().request(mutatedRequest).build();
-        }
+                        if (userId != null) {
+                            httpHeaders.add("X-USER-ID", userId);
+                        }
+                    });
+                })
+                .build();
 
-        return chain.filter(exchangeToUse);
-//        return chain.filter(exchange);
+        return chain.filter(mutatedExchange);
     }
 
     @Override
