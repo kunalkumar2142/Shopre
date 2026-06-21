@@ -1,0 +1,17 @@
+package online.shopre.order_and_cart_management.dto;
+
+import java.util.UUID;
+
+public class Product {
+
+    private UUID id;
+
+    private String name;
+
+    private String slug;
+
+    private String[] images;
+
+    private Double price;
+
+}
