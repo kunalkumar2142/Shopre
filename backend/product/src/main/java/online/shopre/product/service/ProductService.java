@@ -1,9 +1,11 @@
 package online.shopre.product.service;
 
+import jakarta.ws.rs.BadRequestException;
 import online.shopre.product.model.Product;
 import online.shopre.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.ls.LSInput;
 
 
 import java.util.List;
@@ -37,5 +39,12 @@ public class ProductService {
 
     public Product getProductBySlug(String slug){
         return productRepository.findBySlug(slug).orElse(null); //functional programming.
+    }
+
+    public List<Product> getAllProductsByIds(List<UUID> productIDs){
+        if(productIDs.isEmpty()){
+            throw new BadRequestException("Product ids cannot be empty");
+        }
+        return productRepository.findAllById(productIDs);
     }
 }

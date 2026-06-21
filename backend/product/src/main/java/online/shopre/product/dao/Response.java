@@ -5,14 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-//@AllArgsConstructor
+@AllArgsConstructor
 @NoArgsConstructor
 public class Response {
     String message;
     Object data;
 
-    public Response(String message, Object data) {
-        this.message = message;
-        this.data = data;
-    }
+//    public Response(String message, Object data) {
+//        this.message = message;
+//        this.data = data;
+//    }
 }

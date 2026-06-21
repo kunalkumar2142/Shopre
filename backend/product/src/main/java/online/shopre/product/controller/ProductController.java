@@ -53,6 +53,12 @@ public class ProductController {
         return ResponseEntity.ok(new Response("product fetched successfully", product));
     }
 
+    @GetMapping("/products/bulk")
+    public ResponseEntity<Response> getProductsByIds(@RequestBody List<UUID> productIds){
+        List<Product> products = productService.getAllProductsByIds(productIds);
+        return ResponseEntity.ok(new Response("Product fetched succesfully!!", products));
+    }
+
 
 //    @GetMapping("/products")
 //    public List<Product> getProducts(){
