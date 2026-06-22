@@ -41,10 +41,11 @@ public class ProductService {
         return productRepository.findBySlug(slug).orElse(null); //functional programming.
     }
 
-    public List<Product> getAllProductsByIds(List<UUID> productIDs){
-        if(productIDs.isEmpty()){
-            throw new BadRequestException("Product ids cannot be empty");
+    public List<Product> getAllProductsByIds(List<UUID> productIds) {
+        if(productIds.isEmpty()) {
+            throw new BadRequestException("productids cannot be empty");
         }
-        return productRepository.findAllById(productIDs);
+        return productRepository.findAllById(productIds);
     }
+
 }

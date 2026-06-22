@@ -1,7 +1,10 @@
 package online.shopre.order_and_cart_management.dto;
 
+import lombok.Data;
+
 import java.util.UUID;
 
+@Data
 public class Product {
 
     private UUID id;
@@ -13,5 +16,7 @@ public class Product {
     private String[] images;
 
     private Double price;
+
+    private Integer quantity;
 
 }

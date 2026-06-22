@@ -5,7 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4457bfa-dd48-47d9-8716-75f00362a6e5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/dto/CartResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/client/ProductClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/client/ProductClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/controller/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/controller/CartController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/dto/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/dto/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/repository/CartItemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/repository/CartItemRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-and-cart-management/src/main/java/online/shopre/order_and_cart_management/service/CartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/src/main/java/online/shopre/product/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/product/src/main/java/online/shopre/product/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/src/main/java/online/shopre/product/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/product/src/main/java/online/shopre/product/service/ProductService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/data/home-data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/data/home-data.ts" afterDir="false" />
     </list>
@@ -91,7 +99,7 @@
       <command value="mvn install" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.productService">
+  <component name="RunManager" selected="Application.order-and-cart">
     <configuration name="ServiceDiscovery" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="online.shopre.service_discovery.ServiceDiscoveryApplication" />
       <module name="service-discovery" />
