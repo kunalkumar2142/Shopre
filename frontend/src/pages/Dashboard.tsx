@@ -5,10 +5,12 @@ import Footer from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
+import { useCart } from "@/context/CartContext";
 import { formatUserDisplayName } from "@/lib/auth-utils";
 
 const Dashboard = () => {
   const { currentUser, isAuthenticated } = useAuth();
+  const { itemCount } = useCart();
 
   return (
     <div className="flex min-h-screen flex-col bg-slate-50">
@@ -42,7 +44,11 @@ const Dashboard = () => {
                 <ShoppingCart className="size-5 text-emerald-600" />
                 Cart
               </CardTitle>
-              <CardDescription>2 items waiting in your cart</CardDescription>
+              <CardDescription>
+                {itemCount === 0
+                  ? "Your cart is empty"
+                  : `${itemCount} item${itemCount === 1 ? "" : "s"} waiting in your cart`}
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <Button variant="outline" asChild>

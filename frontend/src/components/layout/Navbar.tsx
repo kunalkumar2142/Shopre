@@ -12,6 +12,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { useAuth } from "@/context/AuthContext";
+import { useCart } from "@/context/CartContext";
 import UserMenu from "@/components/layout/UserMenu";
 import { categories } from "@/data/home-data";
 import { cn } from "@/lib/utils";
@@ -25,6 +26,7 @@ const navLinks = [
 
 const Navbar = () => {
   const { isAuthenticated } = useAuth();
+  const { itemCount } = useCart();
 
   return (
     <header className="sticky top-0 z-50 border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
@@ -84,9 +86,11 @@ const Navbar = () => {
           <Button variant="ghost" size="icon" className="relative" aria-label="Cart" asChild>
             <Link to="/cart">
               <ShoppingBag className="size-5" />
-              <Badge className="absolute -top-0.5 -right-0.5 size-5 justify-center rounded-full bg-emerald-600 p-0 text-[10px]">
-                2
-              </Badge>
+              {itemCount > 0 && (
+                <Badge className="absolute -top-0.5 -right-0.5 size-5 justify-center rounded-full bg-emerald-600 p-0 text-[10px]">
+                  {itemCount > 9 ? "9+" : itemCount}
+                </Badge>
+              )}
             </Link>
           </Button>
           {isAuthenticated ? (

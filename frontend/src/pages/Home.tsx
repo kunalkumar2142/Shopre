@@ -1,20 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import {
+  ProductsErrorState,
+  ProductsLoadingState,
+} from "@/components/products/ProductListing";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  categories,
-  heroSlides,
-  promoBanners,
-  topProducts,
-} from "@/data/home-data";
+import { categories, heroSlides, promoBanners } from "@/data/home-data";
+import { useCart } from "@/context/CartContext";
+import { useProducts } from "@/hooks/useProducts";
 
 const Home = () => {
+  const { products, loading, error } = useProducts();
+  const { addToCart } = useCart();
   const [slideIndex, setSlideIndex] = useState(0);
+
+  const topProducts = useMemo(
+    () =>
+      [...products]
+        .sort((a, b) => b.rating - a.rating || b.reviews - a.reviews)
+        .slice(0, 6),
+    [products]
+  );
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -166,54 +177,66 @@ const Home = () => {
                 <Link to="/shop">See all products</Link>
               </Button>
             </div>
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {topProducts.map((product) => (
-                <Card
-                  key={product.id}
-                  className="overflow-hidden border-0 bg-white shadow-sm transition hover:shadow-lg"
-                >
-                  <div className="relative aspect-square overflow-hidden bg-muted">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="size-full object-cover transition duration-300 hover:scale-105"
-                      loading="lazy"
-                    />
-                    {product.badge && (
-                      <Badge className="absolute top-3 left-3 bg-emerald-600">
-                        {product.badge}
-                      </Badge>
-                    )}
-                  </div>
-                  <CardContent className="p-4">
-                    <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                      {product.category}
-                    </p>
-                    <h3 className="mt-1 line-clamp-2 font-semibold leading-snug">
-                      {product.name}
-                    </h3>
-                    <div className="mt-2 flex items-center gap-1 text-sm">
-                      <Star className="size-4 fill-amber-400 text-amber-400" />
-                      <span className="font-medium">{product.rating}</span>
-                      <span className="text-muted-foreground">
-                        ({product.reviews.toLocaleString()})
-                      </span>
-                    </div>
-                    <div className="mt-3 flex items-baseline gap-2">
-                      <span className="text-lg font-bold">${product.price.toFixed(2)}</span>
-                      {product.originalPrice && (
-                        <span className="text-sm text-muted-foreground line-through">
-                          ${product.originalPrice.toFixed(2)}
-                        </span>
+            {loading ? (
+              <ProductsLoadingState />
+            ) : error ? (
+              <ProductsErrorState message={error} />
+            ) : topProducts.length === 0 ? (
+              <div className="rounded-2xl border border-dashed bg-white px-6 py-12 text-center">
+                <p className="text-lg font-medium text-slate-700">No products yet</p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Products will appear here once they are added to the catalog.
+                </p>
+              </div>
+            ) : (
+              <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {topProducts.map((product) => (
+                  <Card
+                    key={product.id}
+                    className="overflow-hidden border-0 bg-white shadow-sm transition hover:shadow-lg"
+                  >
+                    <div className="relative aspect-square overflow-hidden bg-muted">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="size-full object-cover transition duration-300 hover:scale-105"
+                        loading="lazy"
+                      />
+                      {product.badge && (
+                        <Badge className="absolute top-3 left-3 bg-emerald-600">
+                          {product.badge}
+                        </Badge>
                       )}
                     </div>
-                    <Button className="mt-4 w-full bg-emerald-600 hover:bg-emerald-700" size="sm">
-                      Add to cart
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                    <CardContent className="p-4">
+                      <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                        {product.category}
+                      </p>
+                      <h3 className="mt-1 line-clamp-2 font-semibold leading-snug">
+                        {product.name}
+                      </h3>
+                      <div className="mt-2 flex items-center gap-1 text-sm">
+                        <Star className="size-4 fill-amber-400 text-amber-400" />
+                        <span className="font-medium">{product.rating}</span>
+                        <span className="text-muted-foreground">
+                          ({product.reviews.toLocaleString()})
+                        </span>
+                      </div>
+                      <div className="mt-3 flex items-baseline gap-2">
+                        <span className="text-lg font-bold">${product.price.toFixed(2)}</span>
+                      </div>
+                      <Button
+                        className="mt-4 w-full bg-emerald-600 hover:bg-emerald-700"
+                        size="sm"
+                        onClick={() => addToCart(product.id, product.name)}
+                      >
+                        Add to cart
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
           </div>
         </section>
 

@@ -1,16 +1,26 @@
 import { useState, useMemo } from "react";
-import { Star, SlidersHorizontal, ArrowUpDown, Search, Grid, List, RefreshCw } from "lucide-react";
+import { SlidersHorizontal, ArrowUpDown, Search, Grid, List, RefreshCw } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import {
+  ProductListing,
+  ProductsEmptyState,
+  ProductsErrorState,
+  ProductsLoadingState,
+} from "@/components/products/ProductListing";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { categories, allProducts } from "@/data/home-data";
+import { categories } from "@/data/home-data";
+import { useCart } from "@/context/CartContext";
+import { useProducts } from "@/hooks/useProducts";
+import { matchesCategory } from "@/lib/product-utils";
+import type { DisplayProduct } from "@/types/product";
 import { toast } from "sonner";
 
 const Shop = () => {
+  const { products, loading, error } = useProducts();
+  const { addToCart } = useCart();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [maxPrice, setMaxPrice] = useState<number>(1000);
@@ -18,7 +28,6 @@ const Shop = () => {
   const [sortBy, setSortBy] = useState<string>("featured");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
-  // Reset all filters
   const handleResetFilters = () => {
     setSearchQuery("");
     setSelectedCategory("all");
@@ -28,41 +37,36 @@ const Shop = () => {
     toast.success("Filters reset successfully");
   };
 
-  const handleAddToCart = (productName: string) => {
-    toast.success(`${productName} added to cart!`);
+  const handleAddToCart = (product: DisplayProduct) => {
+    addToCart(product.id, product.name);
   };
 
-  // Filter and Sort logic
   const filteredProducts = useMemo(() => {
-    return allProducts
+    return products
       .filter((product) => {
-        const matchesSearch = product.name
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
+        const matchesSearch =
+          product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           product.category.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesCategory =
-          selectedCategory === "all" ||
-          product.category.toLowerCase() === selectedCategory.toLowerCase();
+        const matchesCat = matchesCategory(product, selectedCategory);
         const matchesPrice = product.price <= maxPrice;
         const matchesRating = product.rating >= minRating;
 
-        return matchesSearch && matchesCategory && matchesPrice && matchesRating;
+        return matchesSearch && matchesCat && matchesPrice && matchesRating;
       })
       .sort((a, b) => {
         if (sortBy === "price-asc") return a.price - b.price;
         if (sortBy === "price-desc") return b.price - a.price;
         if (sortBy === "rating") return b.rating - a.rating;
         if (sortBy === "reviews") return b.reviews - a.reviews;
-        return 0; // "featured" or default
+        return 0;
       });
-  }, [searchQuery, selectedCategory, maxPrice, minRating, sortBy]);
+  }, [products, searchQuery, selectedCategory, maxPrice, minRating, sortBy]);
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Navbar />
 
       <main className="flex-1 mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        {/* Page Header */}
         <div className="mb-8 text-center sm:text-left">
           <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
             Shop Our Collection
@@ -73,7 +77,6 @@ const Shop = () => {
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Filters Sidebar */}
           <aside className="w-full lg:w-64 shrink-0 space-y-6">
             <div className="flex items-center justify-between border-b pb-4">
               <div className="flex items-center gap-2 font-semibold text-slate-900">
@@ -91,7 +94,6 @@ const Shop = () => {
               </Button>
             </div>
 
-            {/* Category Filter */}
             <div>
               <h3 className="font-medium text-slate-900 mb-3 text-sm">Categories</h3>
               <div className="space-y-1.5">
@@ -104,12 +106,10 @@ const Shop = () => {
                       : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                   }`}
                 >
-                  All Categories ({allProducts.length})
+                  All Categories ({products.length})
                 </button>
                 {categories.map((cat) => {
-                  const count = allProducts.filter(
-                    (p) => p.category.toLowerCase() === cat.slug.toLowerCase()
-                  ).length;
+                  const count = products.filter((p) => matchesCategory(p, cat.slug)).length;
                   return (
                     <button
                       key={cat.id}
@@ -131,7 +131,6 @@ const Shop = () => {
 
             <Separator />
 
-            {/* Price Filter */}
             <div>
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-medium text-slate-900 text-sm">Max Price</h3>
@@ -154,7 +153,6 @@ const Shop = () => {
 
             <Separator />
 
-            {/* Rating Filter */}
             <div>
               <h3 className="font-medium text-slate-900 mb-3 text-sm">Minimum Rating</h3>
               <div className="space-y-1.5">
@@ -163,27 +161,21 @@ const Shop = () => {
                     key={rating}
                     type="button"
                     onClick={() => setMinRating(rating)}
-                    className={`w-full text-left px-2 py-1.5 text-sm rounded-md transition flex items-center gap-2 ${
+                    className={`w-full text-left px-2 py-1.5 text-sm rounded-md transition ${
                       minRating === rating
                         ? "bg-emerald-50 text-emerald-800 font-medium"
                         : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                     }`}
                   >
-                    <div className="flex items-center gap-0.5">
-                      <Star className={`size-3.5 ${rating > 0 ? "fill-amber-400 text-amber-400" : "text-slate-300"}`} />
-                    </div>
-                    <span>{rating === 0 ? "Any Rating" : `${rating} & up`}</span>
+                    {rating === 0 ? "Any Rating" : `${rating} & up`}
                   </button>
                 ))}
               </div>
             </div>
           </aside>
 
-          {/* Product Grid / Section */}
           <section className="flex-1">
-            {/* Toolbar */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-4 mb-6">
-              {/* Search Bar inside Toolbar */}
               <div className="relative flex-1 max-w-sm">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
                 <Input
@@ -195,7 +187,6 @@ const Shop = () => {
               </div>
 
               <div className="flex items-center gap-4 self-end sm:self-auto">
-                {/* Sort selector */}
                 <div className="flex items-center gap-2 text-sm">
                   <ArrowUpDown className="size-4 text-slate-400" />
                   <span className="text-muted-foreground hidden sm:inline">Sort:</span>
@@ -212,7 +203,6 @@ const Shop = () => {
                   </select>
                 </div>
 
-                {/* View switcher */}
                 <div className="flex border rounded-md overflow-hidden bg-white">
                   <button
                     onClick={() => setViewMode("grid")}
@@ -232,132 +222,23 @@ const Shop = () => {
               </div>
             </div>
 
-            {/* Products Listing */}
-            {filteredProducts.length === 0 ? (
-              <div className="text-center py-16 bg-slate-50 rounded-2xl border border-dashed">
-                <p className="text-lg font-medium text-slate-700">No products found</p>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Try adjusting your keywords, price range, or category filter.
-                </p>
-                <Button
-                  onClick={handleResetFilters}
-                  className="mt-4 bg-emerald-600 hover:bg-emerald-700"
-                >
-                  Clear all filters
-                </Button>
-              </div>
-            ) : viewMode === "grid" ? (
-              <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                {filteredProducts.map((product) => (
-                  <Card
-                    key={product.id}
-                    className="overflow-hidden border bg-white shadow-sm transition hover:shadow-md flex flex-col h-full"
-                  >
-                    <div className="relative aspect-square overflow-hidden bg-muted">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="size-full object-cover transition duration-300 hover:scale-105"
-                        loading="lazy"
-                      />
-                      {product.badge && (
-                        <Badge className={`absolute top-3 left-3 ${
-                          product.badge.toLowerCase() === "new" ? "bg-blue-600" : "bg-emerald-600"
-                        }`}>
-                          {product.badge}
-                        </Badge>
-                      )}
-                    </div>
-                    <CardContent className="p-4 flex flex-col flex-1">
-                      <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                        {product.category}
-                      </p>
-                      <h3 className="mt-1 line-clamp-2 font-semibold leading-snug text-slate-800 flex-1">
-                        {product.name}
-                      </h3>
-                      <div className="mt-2 flex items-center gap-1 text-sm">
-                        <Star className="size-4 fill-amber-400 text-amber-400" />
-                        <span className="font-medium text-slate-700">{product.rating}</span>
-                        <span className="text-slate-400">
-                          ({product.reviews.toLocaleString()})
-                        </span>
-                      </div>
-                      <div className="mt-3 flex items-baseline gap-2">
-                        <span className="text-lg font-bold text-slate-950">${product.price.toFixed(2)}</span>
-                        {product.originalPrice && (
-                          <span className="text-sm text-slate-400 line-through">
-                            ${product.originalPrice.toFixed(2)}
-                          </span>
-                        )}
-                      </div>
-                      <Button
-                        onClick={() => handleAddToCart(product.name)}
-                        className="mt-4 w-full bg-emerald-600 hover:bg-emerald-700"
-                        size="sm"
-                      >
-                        Add to cart
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+            {loading ? (
+              <ProductsLoadingState />
+            ) : error ? (
+              <ProductsErrorState message={error} />
+            ) : filteredProducts.length === 0 ? (
+              <ProductsEmptyState
+                title="No products found"
+                description="Try adjusting your keywords, price range, or category filter."
+                actionLabel="Clear all filters"
+                onAction={handleResetFilters}
+              />
             ) : (
-              <div className="space-y-4">
-                {filteredProducts.map((product) => (
-                  <Card
-                    key={product.id}
-                    className="overflow-hidden border bg-white shadow-sm transition hover:shadow-md flex flex-col sm:flex-row gap-4 p-4"
-                  >
-                    <div className="relative size-32 sm:size-40 shrink-0 overflow-hidden rounded-md bg-muted">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="size-full object-cover transition duration-300 hover:scale-105"
-                        loading="lazy"
-                      />
-                      {product.badge && (
-                        <Badge className="absolute top-2 left-2 bg-emerald-600 text-[10px] px-1.5 py-0.5">
-                          {product.badge}
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="flex flex-col justify-between flex-1 min-w-0">
-                      <div>
-                        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                          {product.category}
-                        </p>
-                        <h3 className="mt-1 text-base font-semibold leading-snug text-slate-800">
-                          {product.name}
-                        </h3>
-                        <div className="mt-1.5 flex items-center gap-1 text-sm">
-                          <Star className="size-3.5 fill-amber-400 text-amber-400" />
-                          <span className="font-medium text-slate-700">{product.rating}</span>
-                          <span className="text-slate-400">
-                            ({product.reviews.toLocaleString()})
-                          </span>
-                        </div>
-                      </div>
-                      <div className="mt-4 sm:mt-0 flex items-center justify-between gap-4 border-t sm:border-0 pt-3 sm:pt-0">
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-xl font-bold text-slate-950">${product.price.toFixed(2)}</span>
-                          {product.originalPrice && (
-                            <span className="text-sm text-slate-400 line-through">
-                              ${product.originalPrice.toFixed(2)}
-                            </span>
-                          )}
-                        </div>
-                        <Button
-                          onClick={() => handleAddToCart(product.name)}
-                          className="bg-emerald-600 hover:bg-emerald-700 px-4"
-                          size="sm"
-                        >
-                          Add to cart
-                        </Button>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
+              <ProductListing
+                products={filteredProducts}
+                viewMode={viewMode}
+                onAddToCart={handleAddToCart}
+              />
             )}
           </section>
         </div>
