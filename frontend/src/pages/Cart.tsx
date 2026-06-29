@@ -10,7 +10,7 @@ import { useCart } from "@/context/CartContext";
 
 const Cart = () => {
   const { isAuthenticated } = useAuth();
-  const { items, totalAmount, loading, refreshCart } = useCart();
+  const { items, totalAmount, loading, refreshCart, removeItem, updateQuantity, clearCart } = useCart();
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -76,12 +76,31 @@ const Cart = () => {
                     <div className="min-w-0 flex-1">
                       <h3 className="font-semibold text-slate-900">{item.name}</h3>
                       <p className="mt-1 text-sm text-muted-foreground">
-                        Quantity: {item.quantity}
+                        <span className="sr-only">Quantity:</span>
+                        <select
+                          value={item.quantity}
+                          onChange={(e) => void updateQuantity(item.id, Number(e.target.value), item.name)}
+                          className="rounded-md border-slate-200 bg-white pr-8 text-sm font-medium focus:border-emerald-500 focus:ring-emerald-500"
+                        >
+                          {[...Array(10)].map((_, i) => (
+                            <option key={i + 1} value={i + 1}>
+                              {i + 1}
+                            </option>
+                          ))}
+                        </select>
                       </p>
                       <p className="mt-2 text-lg font-bold text-slate-950">
                         ${(item.price * item.quantity).toFixed(2)}
                       </p>
                     </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-muted-foreground hover:text-red-500"
+                      onClick={() => void removeItem(item.id, item.name)}
+                    >
+                      <Trash2 className="size-5" />
+                    </Button>
                   </CardContent>
                 </Card>
               ))}
@@ -108,6 +127,10 @@ const Cart = () => {
                     Checkout (coming soon)
                   </Button>
                 </div>
+                <Button variant="ghost" size="sm" onClick={() => void clearCart()} className="w-full text-muted-foreground">
+                  <Trash2 className="mr-2 size-4" />
+                  Clear cart
+                </Button>
                 <Button
                   variant="ghost"
                   size="sm"

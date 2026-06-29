@@ -13,10 +13,36 @@ const API_BASE_URL = "http://localhost:8081";
 
 const api = axios.create({ baseURL: API_BASE_URL });
 
+const getStoredUserId = () => {
+  try {
+    const storedUser = localStorage.getItem("currentUser");
+    if (storedUser) {
+      const user = JSON.parse(storedUser) as UserProfile;
+      if (user.id) return user.id;
+    }
+  } catch {
+    // ignore malformed stored user data
+  }
+
+  try {
+    const storedSession = localStorage.getItem("userSession");
+    if (!storedSession) return undefined;
+
+    const { token } = JSON.parse(storedSession) as { token?: string };
+    if (!token) return undefined;
+
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return payload.userId || payload.id || payload.sub;
+  } catch {
+    return undefined;
+  }
+};
+
 api.interceptors.request.use((config) => {
   if (config.url?.startsWith("/api/v1/auth")) {
     return config;
   }
+
   const stored = localStorage.getItem("userSession");
   if (stored) {
     const { token } = JSON.parse(stored) as { token: string };
@@ -24,6 +50,14 @@ api.interceptors.request.use((config) => {
       config.headers.Authorization = `Bearer ${token}`;
     }
   }
+
+  if (config.url?.startsWith("/api/v1/cart")) {
+    const userId = getStoredUserId();
+    if (userId) {
+      config.headers["X-USER-ID"] = userId;
+    }
+  }
+
   return config;
 });
 
