@@ -26,15 +26,15 @@ spring:
             exposedHeaders:
               - "*"
             allowCredentials: true
-        discovery:
-          locator:
-            enabled: true
-        default-filters:
-          # Remove downstream CORS headers so only gateway-managed CORS is returned
-          - RemoveResponseHeader=Access-Control-Allow-Origin
-          - RemoveResponseHeader=Access-Control-Allow-Credentials
-          # Dedupe just in case anything else adds CORS headers
-          - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin, RETAIN_FIRST
+      discovery:
+        locator:
+          enabled: true
+      default-filters:
+        # Remove downstream CORS headers so only gateway-managed CORS is returned
+        - RemoveResponseHeader=Access-Control-Allow-Origin
+        - RemoveResponseHeader=Access-Control-Allow-Credentials
+        # Dedupe just in case anything else adds CORS headers
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin, RETAIN_FIRST
 
       routes:
         - id: shopre-auth-public-routes
