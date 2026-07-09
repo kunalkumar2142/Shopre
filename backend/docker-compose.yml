@@ -10,6 +10,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://shopre-product-db:5432/shopre-product-db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://shopre-service-discovery:8761/eureka
     depends_on:
       - shopre-product-db
       - shopre-service-discovery
@@ -40,6 +41,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://shopre-users-db:5432/shopre-users-db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://shopre-service-discovery:8761/eureka
     depends_on:
       - shopre-users-db
       - shopre-service-discovery
@@ -70,10 +72,44 @@ services:
       - shopre-network
 
 
+  shopre-order-cart-service:
+    image: kunal2142/shopre-order-and-cart-management-service
+    container_name: shopre-order-cart-service
+    ports:
+      - "8084:8084"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://shopre-cart-db:5432/shopre-cart-db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://shopre-service-discovery:8761/eureka
+    depends_on:
+      - shopre-cart-db
+      - shopre-service-discovery
+      - shopre-product-service
+    networks:
+      - shopre-network
+
+  shopre-cart-db:
+    image: postgres:16-alpine
+    container_name: shopre-cart-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: shopre-cart-db
+    ports:
+      - "5442:5432"
+    volumes:
+      - shopre-cart-db-data:/var/lib/postgresql/data
+    networks:
+      - shopre-network
+
+
 
 volumes:
   shopre-product-db-data:
   shopre-users-db-data:
+  shopre-cart-db-data:
 
 networks:
   shopre-network:
