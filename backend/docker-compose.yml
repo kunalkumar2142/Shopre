@@ -1,6 +1,14 @@
-version: "3.8"
-
 services:
+  # ---------- Service Discovery (Eureka) ----------
+  shopre-service-discovery:
+    image: kunal2142/service-discovery
+    container_name: shopre-service-discovery
+    ports:
+      - "8761:8761"
+    networks:
+      - shopre-network
+
+  # ---------- Product Service ----------
   shopre-product-service:
     image: kunal2142/shopre-product-service
     container_name: shopre-product-service
@@ -11,9 +19,12 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://shopre-service-discovery:8761/eureka
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
     depends_on:
-      - shopre-product-db
-      - shopre-service-discovery
+      shopre-product-db:
+        condition: service_healthy
+      shopre-service-discovery:
+        condition: service_started
     networks:
       - shopre-network
 
@@ -28,10 +39,15 @@ services:
       - "5440:5432"
     volumes:
       - shopre-product-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - shopre-network
 
-
+  # ---------- User Authentication Service ----------
   shopre-user-authentication-service:
     image: kunal2142/shopre-user-authentication-service
     container_name: shopre-user-authentication-service
@@ -42,9 +58,12 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://shopre-service-discovery:8761/eureka
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
     depends_on:
-      - shopre-users-db
-      - shopre-service-discovery
+      shopre-users-db:
+        condition: service_healthy
+      shopre-service-discovery:
+        condition: service_started
     networks:
       - shopre-network
 
@@ -59,34 +78,36 @@ services:
       - "5441:5432"
     volumes:
       - shopre-users-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - shopre-network
 
-
-  shopre-service-discovery:
-    image: kunal2142/service-discovery
-    container_name: shopre-service-discovery
-    ports:
-      - "8761:8761"
-    networks:
-      - shopre-network
-
-
+  # ---------- Order & Cart Service ----------
   shopre-order-cart-service:
     image: kunal2142/shopre-order-and-cart-management-service
     container_name: shopre-order-cart-service
     ports:
       - "8084:8084"
     environment:
-      SPRING_PROFILES_ACTIVE: docker
+      # NOTE: no SPRING_PROFILES_ACTIVE here — it defaults to "local"
+      # so application-local.yml loads (incl. ddl-auto: update), and the
+      # env vars below override datasource + eureka to the container hosts.
       SPRING_DATASOURCE_URL: jdbc:postgresql://shopre-cart-db:5432/shopre-cart-db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://shopre-service-discovery:8761/eureka
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
     depends_on:
-      - shopre-cart-db
-      - shopre-service-discovery
-      - shopre-product-service
+      shopre-cart-db:
+        condition: service_healthy
+      shopre-service-discovery:
+        condition: service_started
+      shopre-product-service:
+        condition: service_started
     networks:
       - shopre-network
 
@@ -101,11 +122,15 @@ services:
       - "5442:5432"
     volumes:
       - shopre-cart-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - shopre-network
 
-
-
+  # ---------- API Gateway ----------
   shopre-api-gateway:
     image: kunal2142/shopre-api-gateway
     container_name: shopre-api-gateway
@@ -114,14 +139,18 @@ services:
     environment:
       SERVER_PORT: 8081
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://shopre-service-discovery:8761/eureka
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
     depends_on:
-      - shopre-service-discovery
-      - shopre-product-service
-      - shopre-user-authentication-service
-      - shopre-order-cart-service
+      shopre-service-discovery:
+        condition: service_started
+      shopre-product-service:
+        condition: service_started
+      shopre-user-authentication-service:
+        condition: service_started
+      shopre-order-cart-service:
+        condition: service_started
     networks:
       - shopre-network
-
 
 volumes:
   shopre-product-db-data:
