@@ -106,6 +106,23 @@ services:
 
 
 
+  shopre-api-gateway:
+    image: kunal2142/shopre-api-gateway
+    container_name: shopre-api-gateway
+    ports:
+      - "8081:8081"
+    environment:
+      SERVER_PORT: 8081
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://shopre-service-discovery:8761/eureka
+    depends_on:
+      - shopre-service-discovery
+      - shopre-product-service
+      - shopre-user-authentication-service
+      - shopre-order-cart-service
+    networks:
+      - shopre-network
+
+
 volumes:
   shopre-product-db-data:
   shopre-users-db-data:
