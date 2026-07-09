@@ -13,30 +13,32 @@ Shopre is a high-performance, production-grade microservices platform designed f
 
 ## 🚀 Key Achievements & Metrics
 
-- **Microservices Architecture** — Architected the platform using Spring Cloud Gateway and Eureka Service Registry, orchestrating 5+ Dockerized services.
-- **Performance Optimization** — Cut inter-service latency by **35%** through optimized API routing at the gateway layer.
-- **API Ecosystem** — Designed and exposed **15+ RESTful APIs** across the Product, Cart/Order, and Auth modules.
-- **Security** — Implemented JWT-based authentication with Spring Security and Role-Based Access Control (RBAC) to secure all service endpoints.
-- **Frontend Excellence** — Delivered a high-performance React + TypeScript frontend using ShadCN UI, boosting component reusability by **40%** and reducing load time by **20%**.
+- **Microservices Architecture** — Built with Spring Cloud Gateway and Eureka Service Registry, orchestrating 5 Dockerized services.
+- **Centralized Routing & Load Balancing** — All traffic flows through a single API Gateway using client-side load balancing (`lb://`) over service discovery.
+- **RESTful APIs** — 10+ REST endpoints across the Product, Cart, and Authentication modules.
+- **Service-to-Service Communication** — OpenFeign clients resolve services by name through Eureka.
+- **Security** — JWT-based authentication with Spring Security and Role-Based Access Control (RBAC), with token validation centralized at the gateway and a verified user identity propagated to downstream services.
+- **React + TypeScript Frontend** — ShadCN UI with reusable components, protected routes, and JWT-based session handling.
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer | Technologies |
-|---|---|
-| **Backend** | Java, Spring Boot, Spring Cloud (Gateway, Eureka), Spring Security |
-| **Frontend** | React, TypeScript, ShadCN UI |
-| **Database** | PostgreSQL |
-| **DevOps** | Docker, Docker Compose, Eureka Service Registry |
+| Layer      | Technologies                                                                  |
+|------------|-------------------------------------------------------------------------------|
+| **Backend**   | Java, Spring Boot, Spring Cloud (Gateway, Eureka), Spring Security, OpenFeign |
+| **Frontend**  | React, TypeScript, ShadCN UI                                               |
+| **Database**  | PostgreSQL (database-per-service)                                          |
+| **DevOps**    | Docker, Docker Compose, Eureka Service Registry                            |
 
 ---
 
 ## 🏗️ Architecture
 
-Shopre follows a decoupled microservices architecture where each domain service is independently deployable and registers itself with Eureka for discovery. All external traffic is routed through a single API Gateway, which handles centralized routing, load balancing, and request filtering.
+Shopre follows a decoupled microservices architecture where each domain service is independently deployable and registers with Eureka for discovery. External traffic is routed through a single API Gateway, which handles centralized routing, load balancing, JWT validation, and request filtering.
 
-```text
+
+```
                         ┌──────────────────────┐
                         │   React + TS Client  │
                         └──────────┬───────────┘
@@ -44,14 +46,15 @@ Shopre follows a decoupled microservices architecture where each domain service 
                                    ▼
                         ┌───────────────────────┐
                         │  Spring Cloud API     │
-                        │  Gateway (Routing)    │
+                        │  Gateway (Routing +   │
+                        │  JWT / RBAC filters)  │
                         └──────────┬────────────┘
                                    │
               ┌────────────────────┼──────────────────────────┐
               ▼                    ▼                          ▼
    ┌────────────────────┐   ┌──────────────────┐   ┌───────────────────────┐
    │  User Auth Service │   │ Product Service  │   │ Order & Cart Service  │
-   │   (JWT + RBAC)     │   │ (Catalog)        │   │ (Orders, Cart, Txns)  │
+   │    (JWT + RBAC)    │   │    (Catalog)     │   │(Cart; orders planned) │
    └──────────┬─────────┘   └──────────┬───────┘   └───────────┬───────────┘
               │                        │                       │
               └─────────────────────┬──┴───────────────────────┘
@@ -68,10 +71,10 @@ Shopre follows a decoupled microservices architecture where each domain service 
 
 **Core components:**
 
-- **Service Discovery** — Eureka Service Registry handles dynamic service lookup, removing the need for hardcoded service URLs.
-- **API Gateway** — Spring Cloud Gateway centralizes routing, request filtering, and acts as the single entry point for the frontend.
-- **Domain Services** — Independently deployable services for Order & Cart, Product Catalog, and User Authentication (JWT + RBAC).
-- **Orchestration** — `docker-compose.yml` spins up the full backend stack (services + database) for local development with a single command.
+- **Service Discovery** — Eureka handles dynamic service lookup, removing the need for hardcoded service URLs.
+- **API Gateway** — Spring Cloud Gateway centralizes routing, JWT validation, and request filtering, acting as the single entry point for the frontend.
+- **Domain Services** — Independently deployable Product Catalog, Cart, and User Authentication (JWT + RBAC) services, each with its own PostgreSQL database.
+- **Orchestration** — `docker-compose.yml` spins up the full backend stack (services + databases) for local development with a single command.
 
 ---
 
@@ -80,7 +83,7 @@ Shopre follows a decoupled microservices architecture where each domain service 
 ```text
 / (Root)
 ├── backend/                          # Backend microservices root
-│   ├── order-and-cart-management/    # Handles orders, shopping cart, and transactions
+│   ├── order-and-cart-management/    # Shopping cart (orders planned)
 │   ├── product/                      # Manages product catalog and inventory
 │   ├── service-discovery/            # Eureka Service Registry for service lookup
 │   ├── shopre-api-gateway/           # Spring Cloud Gateway for centralized routing
@@ -98,8 +101,7 @@ Shopre follows a decoupled microservices architecture where each domain service 
 ## ⚙️ Setup & Installation
 
 ### Prerequisites
-
-- Java 17+ and Maven
+- Java 17+ and Maven (Docker images build on Java 21)
 - Node.js 18+ and npm/yarn
 - Docker & Docker Compose
 
@@ -121,12 +123,12 @@ docker-compose up --build
 
 This will start, in order:
 
-```text
-1. service-discovery       (Eureka Server)
-2. shopre-api-gateway       (API Gateway)
-3. user-authentication      (Auth + JWT/RBAC)
-4. product                  (Product Catalog)
-5. order-and-cart-management (Orders & Cart)
+```
+1. service-discovery         (Eureka Server, :8761)
+2. shopre-api-gateway        (API Gateway, :8081)
+3. user-authentication       (Auth + JWT/RBAC, :8083)
+4. product                   (Product Catalog, :8082)
+5. order-and-cart-management (Cart, :8084)
 ```
 
 ### 3. Run the frontend
@@ -146,11 +148,12 @@ Once running, the Eureka dashboard (typically at `http://localhost:8761`) should
 ---
 
 ## 📌 Roadmap
- 
-> The features below are **planned enhancements** and are not part of the current implementation. They represent the next phase of development for Shopre.
- 
-- [ ] **Centralized Config Server** — Migrate per-service configuration into a Spring Cloud Config Server for unified, environment-specific management.
-- [ ] **Distributed Tracing** — Integrate Zipkin/Sleuth to trace requests across services and simplify debugging in production.
-- [ ] **CI/CD Pipeline** — Automate build, test, and deployment using GitHub Actions.
-- [ ] **Redis Caching Layer** — Cache frequently-read product catalog data to reduce database load and improve response times.
 
+> The features below are **planned enhancements** and are not part of the current implementation.
+
+- [ ] **Order & Checkout Module** — Implement order placement, checkout, and transaction handling in the order-and-cart service.
+- [ ] **Automated Testing** — Add unit/integration tests (JUnit, Mockito) and contract tests across services.
+- [ ] **Centralized Config Server** — Spring Cloud Config for environment-specific configuration.
+- [ ] **Distributed Tracing** — Zipkin / Micrometer Tracing across services.
+- [ ] **CI/CD Pipeline** — Automate build/test/deploy with GitHub Actions.
+- [ ] **Redis Caching Layer** — Cache product catalog reads to reduce DB load.
