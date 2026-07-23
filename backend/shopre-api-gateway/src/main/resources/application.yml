@@ -56,6 +56,8 @@ spring:
           uri: lb://shopre-product-service
           predicates:
             - Path=/api/v1/admin/products/**
+          filters:
+            - RequireAdminRoleFilter
 
         - id: shopre-cart-management
           uri: lb://shopre-order-and-cart-management-service
