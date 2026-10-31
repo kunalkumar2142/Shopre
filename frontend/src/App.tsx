@@ -10,6 +10,7 @@ import Cart from "@/pages/Cart"
 import Checkout from "@/pages/Checkout"
 import Orders from "@/pages/Orders"
 import OrderDetail from "@/pages/OrderDetail"
+import ProductDetail from "@/pages/ProductDetail"
 import { AuthProvider } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
 import Dashboard from './pages/Dashboard'
@@ -29,6 +30,7 @@ function App() {
             <Route path='/signup' element={<SignUp />} />
             <Route path='/dashboard' element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path='/shop' element={<Shop />} />
+            <Route path='/product/:slug' element={<ProductDetail />} />
             <Route path='/deals' element={<Deals />} />
             <Route path='/new' element={<NewArrivals />} />
             <Route path='/categories/:slug' element={<Category />} />

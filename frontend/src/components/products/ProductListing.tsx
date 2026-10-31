@@ -1,4 +1,5 @@
 import { Star } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -47,12 +48,14 @@ export function ProductGridCard({
       className={`overflow-hidden border bg-white shadow-sm transition hover:shadow-md flex flex-col h-full ${styles.border}`}
     >
       <div className="relative aspect-square overflow-hidden bg-muted">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="size-full object-cover transition duration-300 hover:scale-105"
-          loading="lazy"
-        />
+        <Link to={`/product/${product.slug}`} className="block size-full">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="size-full object-cover transition duration-300 hover:scale-105"
+            loading="lazy"
+          />
+        </Link>
         {variant === "new" ? (
           <Badge className="absolute top-3 left-3 bg-blue-600">NEW ARRIVAL</Badge>
         ) : (
@@ -72,9 +75,12 @@ export function ProductGridCard({
         <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
           {product.category}
         </p>
-        <h3 className="mt-1 line-clamp-2 font-semibold leading-snug text-slate-800 flex-1">
+        <Link
+          to={`/product/${product.slug}`}
+          className="mt-1 line-clamp-2 flex-1 font-semibold leading-snug text-slate-800 hover:text-emerald-700"
+        >
           {product.name}
-        </h3>
+        </Link>
         <div className="mt-2 flex items-center gap-1 text-sm">
           <Star className="size-4 fill-amber-400 text-amber-400" />
           <span className="font-medium text-slate-700">{product.rating}</span>
@@ -109,12 +115,14 @@ export function ProductListCard({
       className={`overflow-hidden border bg-white shadow-sm transition hover:shadow-md flex flex-col sm:flex-row gap-4 p-4 ${styles.border}`}
     >
       <div className="relative size-32 sm:size-40 shrink-0 overflow-hidden rounded-md bg-muted">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="size-full object-cover transition duration-300 hover:scale-105"
-          loading="lazy"
-        />
+        <Link to={`/product/${product.slug}`} className="block size-full">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="size-full object-cover transition duration-300 hover:scale-105"
+            loading="lazy"
+          />
+        </Link>
         {product.badge && variant !== "new" && (
           <Badge className="absolute top-2 left-2 bg-emerald-600 text-[10px] px-1.5 py-0.5">
             {product.badge}
@@ -131,9 +139,12 @@ export function ProductListCard({
           <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
             {product.category}
           </p>
-          <h3 className="mt-1 text-base font-semibold leading-snug text-slate-800">
+          <Link
+            to={`/product/${product.slug}`}
+            className="mt-1 block text-base font-semibold leading-snug text-slate-800 hover:text-emerald-700"
+          >
             {product.name}
-          </h3>
+          </Link>
           <div className="mt-1.5 flex items-center gap-1 text-sm">
             <Star className="size-3.5 fill-amber-400 text-amber-400" />
             <span className="font-medium text-slate-700">{product.rating}</span>

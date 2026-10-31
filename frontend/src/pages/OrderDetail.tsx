@@ -120,7 +120,12 @@ const OrderDetail = () => {
                         )}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="truncate font-medium text-slate-900">{item.name}</p>
+                        <Link
+                          to={`/product/${item.slug}`}
+                          className="block truncate font-medium text-slate-900 hover:text-emerald-700"
+                        >
+                          {item.name}
+                        </Link>
                         <p className="text-sm text-muted-foreground">
                           {formatCurrency(item.price)} × {item.quantity}
                         </p>
