@@ -63,3 +63,8 @@ spring:
           uri: lb://shopre-order-and-cart-management-service
           predicates:
             - Path=/api/v1/cart/**
+
+        - id: shopre-order-management
+          uri: lb://shopre-order-and-cart-management-service
+          predicates:
+            - Path=/api/v1/orders/**
