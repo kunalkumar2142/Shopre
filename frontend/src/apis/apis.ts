@@ -5,15 +5,29 @@ import type {
   ApiProductResponse,
   CartResponse,
 } from "@/types/product";
+import type { Order, PlaceOrderRequest } from "@/types/order";
 import type { UserProfile } from "@/types/user";
 import axios from "axios";
 
 /** API gateway — use for all browser requests (CORS + routing). */
-const API_BASE_URL = "http://localhost:8081";
+const API_BASE_URL =
+  (import.meta.env.VITE_API_URL as string | undefined) || "http://localhost:8081";
 
 const api = axios.create({ baseURL: API_BASE_URL });
 
-const getStoredUserId = () => {
+const decodeJwtPayload = (token: string): Record<string, unknown> | null => {
+  try {
+    const part = token.split(".")[1];
+    if (!part) return null;
+    const base64 = part.replace(/-/g, "+").replace(/_/g, "/");
+    const json = atob(base64);
+    return JSON.parse(json) as Record<string, unknown>;
+  } catch {
+    return null;
+  }
+};
+
+const getStoredUserId = (): string | undefined => {
   try {
     const storedUser = localStorage.getItem("currentUser");
     if (storedUser) {
@@ -28,11 +42,14 @@ const getStoredUserId = () => {
     const storedSession = localStorage.getItem("userSession");
     if (!storedSession) return undefined;
 
-    const { token } = JSON.parse(storedSession) as { token?: string };
+    const parsed = JSON.parse(storedSession) as { token?: string };
+    const token = parsed.token;
     if (!token) return undefined;
 
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    return payload.userId || payload.id || payload.sub;
+    const payload = decodeJwtPayload(token);
+    if (!payload) return undefined;
+    const val = (payload.userId ?? payload.id ?? payload.sub) as string | undefined;
+    return typeof val === "string" ? val : undefined;
   } catch {
     return undefined;
   }
@@ -43,15 +60,23 @@ api.interceptors.request.use((config) => {
     return config;
   }
 
-  const stored = localStorage.getItem("userSession");
-  if (stored) {
-    const { token } = JSON.parse(stored) as { token: string };
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+  try {
+    const stored = localStorage.getItem("userSession");
+    if (stored) {
+      const parsed = JSON.parse(stored) as { token?: string };
+      const token = parsed.token;
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
+  } catch {
+    // ignore malformed session — let request proceed unauthenticated
   }
 
-  if (config.url?.startsWith("/api/v1/cart")) {
+  if (
+    config.url?.startsWith("/api/v1/cart") ||
+    config.url?.startsWith("/api/v1/orders")
+  ) {
     const userId = getStoredUserId();
     if (userId) {
       config.headers["X-USER-ID"] = userId;
@@ -84,6 +109,14 @@ export const addToCart = (request: AddToCartRequest) =>
 
 export const getCart = () => api.get<CartResponse>("/api/v1/cart");
 
+export const placeOrder = (request: PlaceOrderRequest) =>
+  api.post<Order>("/api/v1/orders", request);
+
+export const getOrders = () => api.get<Order[]>("/api/v1/orders");
+
+export const getOrderById = (id: string) =>
+  api.get<Order>(`/api/v1/orders/${id}`);
+
 export function getApiErrorMessage(error: unknown, fallback: string): string {
   if (axios.isAxiosError(error)) {
     const data = error.response?.data as { message?: string } | string | undefined;
@@ -99,6 +132,13 @@ export function getAuthErrorMessage(error: unknown): string {
   if (axios.isAxiosError(error)) {
     if (error.response?.status === 401) return "Invalid email or password.";
     if (error.response?.status === 409) return "An account with this email already exists.";
+    const data = error.response?.data as { message?: string } | string | undefined;
+    const msg =
+      typeof data === "string" ? data : data && typeof data === "object" ? data.message : "";
+    const lower = msg?.toLowerCase() ?? "";
+    if (lower.includes("already exists") || lower.includes("duplicate") || lower.includes("unique")) {
+      return "An account with this email already exists.";
+    }
     if (error.response?.status && error.response.status >= 500) {
       return "Server error. Please try again later.";
     }

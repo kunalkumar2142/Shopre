@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { Minus, Plus, ShoppingBag, Sparkles, Trash2, Truck } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Minus, Plus, RefreshCw, ShoppingBag, Sparkles, Trash2, Truck } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
@@ -7,13 +7,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
-import { toast } from "sonner";
 
 const formatCurrency = (value: number) => `$${value.toFixed(2)}`;
 
 const Cart = () => {
   const { isAuthenticated } = useAuth();
   const { items, totalAmount, loading, refreshCart, removeItem, updateQuantity, clearCart } = useCart();
+  const navigate = useNavigate();
 
   const shippingFee = totalAmount > 100 ? 0 : 9.99;
   const freeShippingTarget = Math.max(0, 100 - totalAmount);
@@ -187,7 +187,7 @@ const Cart = () => {
                     <Button
                       className="flex-1 bg-emerald-600 hover:bg-emerald-700"
                       disabled={checkoutDisabled}
-                      onClick={() => toast.info("Checkout is coming soon", { description: "We’ll unlock this experience next." })}
+                      onClick={() => navigate("/checkout")}
                     >
                       Checkout
                     </Button>
@@ -203,7 +203,7 @@ const Cart = () => {
                       onClick={() => void refreshCart()}
                       className="w-full justify-start text-muted-foreground"
                     >
-                      <Trash2 className="mr-2 size-4" />
+                      <RefreshCw className="mr-2 size-4" />
                       Refresh cart
                     </Button>
                   </div>

@@ -19,6 +19,7 @@ type CartContextType = {
   itemCount: number;
   loading: boolean;
   refreshCart: () => Promise<void>;
+  resetCart: () => void;
   addToCart: (productId: string, productName: string, quantity?: number) => Promise<boolean>;
   removeItem: (productId: string, productName: string) => Promise<boolean>;
   updateQuantity: (productId: string, quantity: number, productName: string) => Promise<boolean>;
@@ -74,15 +75,36 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       const nextItems = response.data.products ?? [];
       applyCartState(nextItems, response.data.totalAmount ?? 0);
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.status === 400) {
-        setItems([]);
-        setTotalAmount(0);
-        localStorage.removeItem(CART_STORAGE_KEY);
-      } else {
-        const fallbackItems = readStoredCart();
-        if (fallbackItems.length > 0) {
-          applyCartState(fallbackItems);
+      if (axios.isAxiosError(error)) {
+        const status = error.response?.status;
+        const data = error.response?.data as { message?: string } | string | undefined;
+        const msg =
+          typeof data === "string" ? data : data && typeof data === "object" ? data.message ?? "" : "";
+        const lower = msg.toLowerCase();
+        const isEmptyCartError =
+          status === 400 ||
+          status === 404 ||
+          lower.includes("cart not found") ||
+          lower.includes("productids cannot be empty");
+
+        if (isEmptyCartError) {
+          // Backend has no cart yet (cart-service throws 400/500 for new user or empty productIds).
+          // Keep any locally cached items as fallback so UX is not blank,
+          // otherwise treat as genuinely empty.
+          const cached = readStoredCart();
+          if (cached.length > 0) {
+            applyCartState(cached);
+          } else {
+            setItems([]);
+            setTotalAmount(0);
+            localStorage.removeItem(CART_STORAGE_KEY);
+          }
+          return;
         }
+      }
+      const fallbackItems = readStoredCart();
+      if (fallbackItems.length > 0) {
+        applyCartState(fallbackItems);
       }
     } finally {
       setLoading(false);
@@ -92,6 +114,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     void refreshCart();
   }, [refreshCart]);
+
+  const resetCart = useCallback(() => {
+    setItems([]);
+    setTotalAmount(0);
+    localStorage.removeItem(CART_STORAGE_KEY);
+  }, []);
 
   const addToCart = useCallback(
     async (productId: string, productName: string, quantity = 1): Promise<boolean> => {
@@ -128,7 +156,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
       const nextItems = items.filter((item) => item.id !== productId);
       applyCartState(nextItems);
-      toast.success(`${productName} removed from cart.`);
+      toast.success(`${productName} removed from cart.`, {
+        description: "Saved locally — backend cart update not yet available.",
+      });
       return true;
     },
     [applyCartState, isAuthenticated, items]
@@ -151,9 +181,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       applyCartState(nextItems);
 
       if (normalizedQuantity === 0) {
-        toast.success(`${productName} removed from cart.`);
+        toast.success(`${productName} removed from cart.`, {
+          description: "Saved locally — backend cart update not yet available.",
+        });
       } else {
-        toast.success(`${productName} quantity updated.`);
+        toast.success(`${productName} quantity updated.`, {
+          description: "Saved locally — backend sync on next add.",
+        });
       }
 
       return true;
@@ -170,7 +204,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
 
     applyCartState([]);
-    toast.success("Cart cleared.");
+    toast.success("Cart cleared.", {
+      description: "Saved locally — backend clear not yet available.",
+    });
     return true;
   }, [applyCartState, isAuthenticated]);
 
@@ -186,12 +222,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       itemCount,
       loading,
       refreshCart,
+      resetCart,
       addToCart,
       removeItem,
       updateQuantity,
       clearCart,
     }),
-    [items, totalAmount, itemCount, loading, refreshCart, addToCart, removeItem, updateQuantity, clearCart]
+    [items, totalAmount, itemCount, loading, refreshCart, resetCart, addToCart, removeItem, updateQuantity, clearCart]
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
