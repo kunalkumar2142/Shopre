@@ -1,4 +1,5 @@
 import { getAuthErrorMessage, getCurrentUser, signIn, signUp } from "@/apis/apis";
+import { getRoleFromToken, isTokenExpired } from "@/lib/auth-utils";
 import type { SignInRequest, SignUpRequest } from "@/types/auth";
 import type { UserProfile } from "@/types/user";
 import type { Usersession } from "@/types/user-session";
@@ -25,26 +26,44 @@ interface AuthContextType {
   refreshCurrentUser: () => Promise<UserProfile | null>;
 }
 
-const getRoleFromToken = (token: string) => {
-  try {
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    return payload.role || "user";
-  } catch {
-    return "user";
-  }
+const sanitizeUser = (user: UserProfile): UserProfile => {
+  const safeUser = { ...user } as UserProfile & { password?: string };
+  delete safeUser.password;
+  return safeUser;
+};
+
+const isSessionValid = (session: Usersession | null): boolean => {
+  if (!session?.token) return false;
+  if (isTokenExpired(session.token)) return false;
+  return true;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [userSession, setUserSession] = useState<Usersession | null>(() => {
-    const storedUser = localStorage.getItem("userSession");
-    return storedUser ? JSON.parse(storedUser) : null;
+    try {
+      const stored = localStorage.getItem("userSession");
+      if (!stored) return null;
+      const parsed = JSON.parse(stored) as Usersession;
+      if (!parsed?.token || isTokenExpired(parsed.token)) {
+        localStorage.removeItem("userSession");
+        localStorage.removeItem("currentUser");
+        return null;
+      }
+      return parsed;
+    } catch {
+      return null;
+    }
   });
 
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(() => {
-    const stored = localStorage.getItem("currentUser");
-    return stored ? JSON.parse(stored) : null;
+    try {
+      const stored = localStorage.getItem("currentUser");
+      return stored ? sanitizeUser(JSON.parse(stored) as UserProfile) : null;
+    } catch {
+      return null;
+    }
   });
 
   const persistSession = (token: string) => {
@@ -58,29 +77,51 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("currentUser");
   };
 
+  const clearSession = useCallback(() => {
+    setUserSession(null);
+    localStorage.removeItem("userSession");
+    clearUser();
+  }, []);
+
   const refreshCurrentUser = useCallback(async (): Promise<UserProfile | null> => {
-    if (!localStorage.getItem("userSession")) {
+    const raw = localStorage.getItem("userSession");
+    if (!raw) {
       clearUser();
       return null;
     }
     try {
+      const parsed = JSON.parse(raw) as Usersession;
+      if (!parsed?.token || isTokenExpired(parsed.token)) {
+        clearSession();
+        return null;
+      }
+    } catch {
+      clearSession();
+      return null;
+    }
+    try {
       const response = await getCurrentUser();
-      setCurrentUser(response.data);
-      localStorage.setItem("currentUser", JSON.stringify(response.data));
-      return response.data;
+      const user = sanitizeUser(response.data);
+      setCurrentUser(user);
+      localStorage.setItem("currentUser", JSON.stringify(user));
+      return user;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === 401) {
         clearUser();
       }
       return null;
     }
-  }, []);
+  }, [clearSession]);
 
   useEffect(() => {
-    if (userSession?.token) {
-      refreshCurrentUser();
+    if (!userSession?.token) return;
+    if (isTokenExpired(userSession.token)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      clearSession();
+      return;
     }
-  }, [userSession?.token, refreshCurrentUser]);
+    void refreshCurrentUser();
+  }, [userSession?.token, refreshCurrentUser, clearSession]);
 
   const login = async (request: SignInRequest): Promise<AuthResult> => {
     try {
@@ -90,7 +131,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (!user) {
         return {
           ok: false,
-          message: "Signed in but could not load your profile. Is the API gateway running on port 8081?",
+          message: "Signed in but could not load your profile. Please try again.",
         };
       }
       return { ok: true };
@@ -107,7 +148,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (!user) {
         return {
           ok: false,
-          message: "Account created but could not load your profile. Is the API gateway running on port 8081?",
+          message: "Account created but could not load your profile. Please try again.",
         };
       }
       return { ok: true };
@@ -117,18 +158,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = () => {
-    setUserSession(null);
-    localStorage.removeItem("userSession");
-    clearUser();
+    clearSession();
   };
 
   const value = {
     UserSession: userSession,
     currentUser,
-    isAuthenticated: !!userSession,
+    isAuthenticated: isSessionValid(userSession),
     isAdmin: currentUser
       ? currentUser.role === "ADMIN"
-      : userSession
+      : userSession && isSessionValid(userSession)
         ? getRoleFromToken(userSession.token) === "ADMIN"
         : false,
     login,

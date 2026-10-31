@@ -1,10 +1,32 @@
-export function getEmailFromToken(token: string): string | null {
+const decodePayload = (token: string): Record<string, unknown> | null => {
   try {
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    return payload.sub ?? null;
+    const part = token.split(".")[1];
+    if (!part) return null;
+    const base64 = part.replace(/-/g, "+").replace(/_/g, "/");
+    return JSON.parse(atob(base64)) as Record<string, unknown>;
   } catch {
     return null;
   }
+};
+
+export function getEmailFromToken(token: string): string | null {
+  const payload = decodePayload(token);
+  if (!payload) return null;
+  const sub = payload.sub as string | undefined;
+  return sub ?? null;
+}
+
+export function isTokenExpired(token: string): boolean {
+  const payload = decodePayload(token);
+  if (!payload || typeof payload.exp !== "number") return false;
+  return payload.exp * 1000 < Date.now();
+}
+
+export function getRoleFromToken(token: string): string {
+  const payload = decodePayload(token);
+  if (!payload) return "user";
+  const role = payload.role as string | undefined;
+  return role ?? "user";
 }
 
 export function getInitialsFromEmail(email: string): string {
