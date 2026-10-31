@@ -11,6 +11,7 @@ import Checkout from "@/pages/Checkout"
 import Orders from "@/pages/Orders"
 import OrderDetail from "@/pages/OrderDetail"
 import ProductDetail from "@/pages/ProductDetail"
+import Help from "@/pages/Help"
 import { AuthProvider } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
 import Dashboard from './pages/Dashboard'
@@ -36,6 +37,10 @@ function App() {
             <Route path='/categories/:slug' element={<Category />} />
             <Route path='/search' element={<SearchPage />} />
             <Route path='/cart' element={<ProtectedRoute><Cart /></ProtectedRoute>} />
+            <Route path='/shipping' element={<Help topic="shipping" />} />
+            <Route path='/returns' element={<Help topic="returns" />} />
+            <Route path='/contact' element={<Help topic="contact" />} />
+            <Route path='/faq' element={<Help topic="faq" />} />
             <Route path='/checkout' element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
             <Route path='/orders' element={<ProtectedRoute><Orders /></ProtectedRoute>} />
             <Route path='/orders/:id' element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />

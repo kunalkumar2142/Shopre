@@ -196,12 +196,14 @@ const Home = () => {
                     className="overflow-hidden border-0 bg-white shadow-sm transition hover:shadow-lg"
                   >
                     <div className="relative aspect-square overflow-hidden bg-muted">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="size-full object-cover transition duration-300 hover:scale-105"
-                        loading="lazy"
-                      />
+                      <Link to={`/product/${product.slug}`} className="block size-full">
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="size-full object-cover transition duration-300 hover:scale-105"
+                          loading="lazy"
+                        />
+                      </Link>
                       {product.badge && (
                         <Badge className="absolute top-3 left-3 bg-emerald-600">
                           {product.badge}
@@ -212,9 +214,12 @@ const Home = () => {
                       <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                         {product.category}
                       </p>
-                      <h3 className="mt-1 line-clamp-2 font-semibold leading-snug">
+                      <Link
+                        to={`/product/${product.slug}`}
+                        className="mt-1 line-clamp-2 font-semibold leading-snug hover:text-emerald-700"
+                      >
                         {product.name}
-                      </h3>
+                      </Link>
                       <div className="mt-2 flex items-center gap-1 text-sm">
                         <Star className="size-4 fill-amber-400 text-amber-400" />
                         <span className="font-medium">{product.rating}</span>
