@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { ArrowUpDown, Grid, List, Search } from "lucide-react";
+import { Search } from "lucide-react";
+import { ProductSortSelect, ProductViewToggle } from "@/components/products/ProductControls";
+import { sortProducts, useProductSort, useProductViewMode } from "@/hooks/useProductFilters";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import {
@@ -18,30 +20,22 @@ const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const initialQuery = searchParams.get("q") ?? "";
   const [searchQuery, setSearchQuery] = useState(initialQuery);
-  const [sortBy, setSortBy] = useState("featured");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const { sortBy, setSortBy } = useProductSort("featured");
+  const { viewMode, setViewMode } = useProductViewMode("grid");
   const { products, loading, error } = useProducts();
   const { addToCart } = useCart();
 
   const filteredProducts = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
-
-    return products
-      .filter((product) => {
-        if (!query) return true;
-        return (
-          product.name.toLowerCase().includes(query) ||
-          product.category.toLowerCase().includes(query) ||
-          product.slug.toLowerCase().includes(query)
-        );
-      })
-      .sort((a, b) => {
-        if (sortBy === "price-asc") return a.price - b.price;
-        if (sortBy === "price-desc") return b.price - a.price;
-        if (sortBy === "rating") return b.rating - a.rating;
-        if (sortBy === "reviews") return b.reviews - a.reviews;
-        return 0;
-      });
+    const filtered = products.filter((product) => {
+      if (!query) return true;
+      return (
+        product.name.toLowerCase().includes(query) ||
+        product.category.toLowerCase().includes(query) ||
+        product.slug.toLowerCase().includes(query)
+      );
+    });
+    return sortProducts(filtered, sortBy);
   }, [products, searchQuery, sortBy]);
 
   const handleAddToCart = (product: DisplayProduct) => {
@@ -72,37 +66,8 @@ const SearchPage = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 text-sm">
-              <ArrowUpDown className="size-4 text-slate-400" />
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="cursor-pointer border-0 bg-transparent text-sm font-medium text-slate-700 outline-none"
-              >
-                <option value="featured">Featured</option>
-                <option value="price-asc">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
-                <option value="rating">Top Rated</option>
-                <option value="reviews">Most Reviewed</option>
-              </select>
-            </div>
-
-            <div className="flex overflow-hidden rounded-md border bg-white">
-              <button
-                onClick={() => setViewMode("grid")}
-                className={`p-1.5 transition ${viewMode === "grid" ? "bg-slate-100 text-slate-800" : "text-slate-400 hover:text-slate-600"}`}
-                aria-label="Grid view"
-              >
-                <Grid className="size-4" />
-              </button>
-              <button
-                onClick={() => setViewMode("list")}
-                className={`p-1.5 transition ${viewMode === "list" ? "bg-slate-100 text-slate-800" : "text-slate-400 hover:text-slate-600"}`}
-                aria-label="List view"
-              >
-                <List className="size-4" />
-              </button>
-            </div>
+            <ProductSortSelect value={sortBy} onChange={setSortBy} />
+            <ProductViewToggle viewMode={viewMode} onChange={setViewMode} />
           </div>
         </div>
 

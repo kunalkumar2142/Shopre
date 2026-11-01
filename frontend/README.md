@@ -1,73 +1,96 @@
-# React + TypeScript + Vite
+# Shopre Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript client for Shopre. It talks to the backend exclusively through the Spring Cloud API Gateway.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React 19 + TypeScript
+- Vite 7
+- Tailwind CSS 4 + ShadCN UI
+- React Router 7
+- Axios
 
-## React Compiler
+## Getting started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Prerequisites: Node.js 20.19+ (or 22.12+) and npm, with the backend gateway running on `http://localhost:8081`.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The app runs at `http://localhost:5173`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Environment
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Variable       | Default                 | Description                 |
+|----------------|-------------------------|-----------------------------|
+| `VITE_API_URL` | `http://localhost:8081` | Base URL of the API gateway |
+
+Create `frontend/.env` to override it:
+
+```bash
+VITE_API_URL=http://localhost:8081
 ```
+
+The frontend origin must match `FRONTEND_URL` in `backend/.env` (default `http://localhost:5173`), otherwise the gateway blocks requests via CORS.
+
+## Scripts
+
+| Command           | Description                          |
+|-------------------|--------------------------------------|
+| `npm run dev`     | Start the Vite dev server            |
+| `npm run build`   | Type-check and build for production  |
+| `npm run lint`    | Run ESLint                           |
+| `npm run preview` | Preview the production build         |
+
+## Routes
+
+| Path                  | Access    | Page                                      |
+|-----------------------|-----------|-------------------------------------------|
+| `/`                   | Public    | Home                                      |
+| `/shop`               | Public    | Shop with filters and sorting             |
+| `/product/:identifier` | Public   | Product detail (slug or ID fallback)      |
+| `/categories/:slug`   | Public    | Category listing                          |
+| `/deals`              | Public    | Deals                                     |
+| `/new`                | Public    | New arrivals                              |
+| `/search`             | Public    | Search results                            |
+| `/shipping`           | Public    | Shipping help                             |
+| `/returns`            | Public    | Returns help                              |
+| `/contact`            | Public    | Contact help                              |
+| `/faq`                | Public    | FAQ                                       |
+| `/signin`             | Public    | Sign in                                   |
+| `/signup`             | Public    | Sign up                                   |
+| `/dashboard`          | Protected | Account dashboard                         |
+| `/cart`               | Protected | Cart                                      |
+| `/checkout`           | Protected | Checkout and order placement              |
+| `/orders`             | Protected | Order history                             |
+| `/orders/:id`         | Protected | Order detail                              |
+| `*`                   | Public    | Not found                                 |
+
+## Auth and API flow
+
+- The Axios client in `src/apis/apis.ts` sets the gateway base URL from `VITE_API_URL`.
+- The JWT is attached as `Authorization: Bearer <token>`.
+- The gateway validates the token and injects `X-USER-ID` for downstream services. The frontend does not send that header itself.
+- Session data is stored in `localStorage` under `currentUser` and `userSession`.
+- `ProtectedRoute` redirects unauthenticated users away from cart, checkout, orders, and dashboard pages.
+
+## Project structure
+
+```text
+src/
+├── apis/         # Axios client and API functions
+├── components/   # UI, product, order, auth, and layout components
+├── context/      # AuthContext and CartContext
+├── hooks/        # Product filtering helpers
+├── lib/          # Formatting and product utilities
+├── pages/        # Route pages
+└── types/        # API and domain types
+```
+
+## Known limitations
+
+- Cart quantity changes, item removal, and clearing the cart are applied only in frontend state; the backend exposes add and read endpoints only.
+- Category filters use the product `brand` field because the backend has no category field.
+- Orders are created as `PENDING`; there is no UI or backend support for changing order status yet.

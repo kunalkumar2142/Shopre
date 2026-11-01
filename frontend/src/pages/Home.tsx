@@ -196,7 +196,7 @@ const Home = () => {
                     className="overflow-hidden border-0 bg-white shadow-sm transition hover:shadow-lg"
                   >
                     <div className="relative aspect-square overflow-hidden bg-muted">
-                      <Link to={`/product/${product.slug}`} className="block size-full">
+                      <Link to={`/product/${product.slug || product.id}`} className="block size-full">
                         <img
                           src={product.image}
                           alt={product.name}
@@ -215,7 +215,7 @@ const Home = () => {
                         {product.category}
                       </p>
                       <Link
-                        to={`/product/${product.slug}`}
+                        to={`/product/${product.slug || product.id}`}
                         className="mt-1 line-clamp-2 font-semibold leading-snug hover:text-emerald-700"
                       >
                         {product.name}

@@ -121,7 +121,7 @@ const OrderDetail = () => {
                       </div>
                       <div className="min-w-0 flex-1">
                         <Link
-                          to={`/product/${item.slug}`}
+                          to={`/product/${item.slug || item.productId}`}
                           className="block truncate font-medium text-slate-900 hover:text-emerald-700"
                         >
                           {item.name}

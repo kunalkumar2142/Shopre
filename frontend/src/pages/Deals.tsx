@@ -1,5 +1,7 @@
 import { useState, useMemo } from "react";
-import { Percent, ArrowUpDown, Search, Grid, List, Flame } from "lucide-react";
+import { Percent, Search, Flame } from "lucide-react";
+import { ProductSortSelect, ProductViewToggle } from "@/components/products/ProductControls";
+import { sortProducts, useProductSort, useProductViewMode } from "@/hooks/useProductFilters";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import {
@@ -21,25 +23,19 @@ const Deals = () => {
   const { addToCart } = useCart();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [sortBy, setSortBy] = useState<string>("featured");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const { sortBy, setSortBy } = useProductSort("featured");
+  const { viewMode, setViewMode } = useProductViewMode("grid");
 
   const dealsProducts = useMemo(() => products.filter(isDealProduct), [products]);
 
   const filteredProducts = useMemo(() => {
-    return dealsProducts
-      .filter((product) => {
-        const matchesSearch =
-          product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.category.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchesSearch && matchesCategory(product, selectedCategory);
-      })
-      .sort((a, b) => {
-        if (sortBy === "price-asc") return a.price - b.price;
-        if (sortBy === "price-desc") return b.price - a.price;
-        if (sortBy === "rating") return b.rating - a.rating;
-        return 0;
-      });
+    const filtered = dealsProducts.filter((product) => {
+      const matchesSearch =
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesSearch && matchesCategory(product, selectedCategory);
+    });
+    return sortProducts(filtered, sortBy);
   }, [dealsProducts, searchQuery, selectedCategory, sortBy]);
 
   const categoriesWithDeals = useMemo(() => {
@@ -112,37 +108,17 @@ const Deals = () => {
           </div>
 
           <div className="flex items-center gap-4 self-end sm:self-auto">
-            <div className="flex items-center gap-2 text-sm">
-              <ArrowUpDown className="size-4 text-slate-400" />
-              <span className="text-muted-foreground hidden sm:inline">Sort:</span>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="bg-transparent border-0 font-medium text-slate-700 focus:ring-0 cursor-pointer text-sm outline-none"
-              >
-                <option value="featured">Featured Deals</option>
-                <option value="price-asc">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
-                <option value="rating">Top Rated</option>
-              </select>
-            </div>
-
-            <div className="flex border rounded-md overflow-hidden bg-white">
-              <button
-                onClick={() => setViewMode("grid")}
-                className={`p-1.5 transition ${viewMode === "grid" ? "bg-slate-100 text-slate-800" : "text-slate-400 hover:text-slate-600"}`}
-                aria-label="Grid View"
-              >
-                <Grid className="size-4" />
-              </button>
-              <button
-                onClick={() => setViewMode("list")}
-                className={`p-1.5 transition ${viewMode === "list" ? "bg-slate-100 text-slate-800" : "text-slate-400 hover:text-slate-600"}`}
-                aria-label="List View"
-              >
-                <List className="size-4" />
-              </button>
-            </div>
+            <ProductSortSelect
+              value={sortBy}
+              onChange={setSortBy}
+              options={[
+                { value: "featured", label: "Featured Deals" },
+                { value: "price-asc", label: "Price: Low to High" },
+                { value: "price-desc", label: "Price: High to Low" },
+                { value: "rating", label: "Top Rated" },
+              ]}
+            />
+            <ProductViewToggle viewMode={viewMode} onChange={setViewMode} />
           </div>
         </div>
 

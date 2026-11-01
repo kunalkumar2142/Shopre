@@ -48,7 +48,7 @@ export function ProductGridCard({
       className={`overflow-hidden border bg-white shadow-sm transition hover:shadow-md flex flex-col h-full ${styles.border}`}
     >
       <div className="relative aspect-square overflow-hidden bg-muted">
-        <Link to={`/product/${product.slug}`} className="block size-full">
+        <Link to={`/product/${product.slug || product.id}`} className="block size-full">
           <img
             src={product.image}
             alt={product.name}
@@ -76,7 +76,7 @@ export function ProductGridCard({
           {product.category}
         </p>
         <Link
-          to={`/product/${product.slug}`}
+          to={`/product/${product.slug || product.id}`}
           className="mt-1 line-clamp-2 flex-1 font-semibold leading-snug text-slate-800 hover:text-emerald-700"
         >
           {product.name}
@@ -115,7 +115,7 @@ export function ProductListCard({
       className={`overflow-hidden border bg-white shadow-sm transition hover:shadow-md flex flex-col sm:flex-row gap-4 p-4 ${styles.border}`}
     >
       <div className="relative size-32 sm:size-40 shrink-0 overflow-hidden rounded-md bg-muted">
-        <Link to={`/product/${product.slug}`} className="block size-full">
+        <Link to={`/product/${product.slug || product.id}`} className="block size-full">
           <img
             src={product.image}
             alt={product.name}
@@ -140,7 +140,7 @@ export function ProductListCard({
             {product.category}
           </p>
           <Link
-            to={`/product/${product.slug}`}
+            to={`/product/${product.slug || product.id}`}
             className="mt-1 block text-base font-semibold leading-snug text-slate-800 hover:text-emerald-700"
           >
             {product.name}

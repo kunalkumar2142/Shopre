@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Minus, Plus, RefreshCw, ShoppingBag, Sparkles, Trash2, Truck } from "lucide-react";
+import { Minus, Plus, RefreshCw, ShoppingBag, Trash2, Truck } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
@@ -15,8 +15,6 @@ const Cart = () => {
   const { items, totalAmount, loading, refreshCart, removeItem, updateQuantity, clearCart } = useCart();
   const navigate = useNavigate();
 
-  const shippingFee = totalAmount > 100 ? 0 : 9.99;
-  const freeShippingTarget = Math.max(0, 100 - totalAmount);
   const checkoutDisabled = items.length === 0 || loading;
 
   return (
@@ -90,7 +88,12 @@ const Cart = () => {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-start justify-between gap-4">
                         <div>
-                          <h3 className="font-semibold text-slate-900">{item.name}</h3>
+                          <Link
+                            to={`/product/${item.slug || item.id}`}
+                            className="font-semibold text-slate-900 hover:text-emerald-700"
+                          >
+                            {item.name}
+                          </Link>
                           <p className="mt-1 text-sm text-muted-foreground">
                             {formatCurrency(item.price)} each
                           </p>
@@ -141,22 +144,6 @@ const Cart = () => {
             </div>
 
             <div className="space-y-4">
-              <Card className="border-emerald-100 bg-emerald-50/70">
-                <CardContent className="space-y-3 p-5">
-                  <div className="flex items-center gap-2 text-emerald-700">
-                    <Sparkles className="size-4" />
-                    <p className="text-sm font-semibold">Free shipping over $100</p>
-                  </div>
-                  {freeShippingTarget > 0 ? (
-                    <p className="text-sm text-emerald-700">
-                      Add {formatCurrency(freeShippingTarget)} more to unlock free delivery.
-                    </p>
-                  ) : (
-                    <p className="text-sm text-emerald-700">You’ve unlocked free shipping.</p>
-                  )}
-                </CardContent>
-              </Card>
-
               <Card>
                 <CardContent className="space-y-4 p-6">
                   <div className="flex items-center justify-between text-sm">
@@ -165,17 +152,18 @@ const Cart = () => {
                   </div>
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">Shipping</span>
-                    <span className="font-medium">
-                      {shippingFee === 0 ? "Free" : formatCurrency(shippingFee)}
-                    </span>
+                    <span className="font-medium">Not included</span>
                   </div>
                   <Separator />
                   <div className="flex items-center justify-between">
                     <span className="text-lg font-semibold">Total</span>
                     <span className="text-2xl font-bold text-emerald-700">
-                      {formatCurrency(totalAmount + shippingFee)}
+                      {formatCurrency(totalAmount)}
                     </span>
                   </div>
+                  <p className="text-xs text-muted-foreground">
+                    Shipping is not included in the order total.
+                  </p>
                   <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-600">
                     <Truck className="size-4 text-emerald-600" />
                     Delivery is estimated to arrive in 2–4 business days.

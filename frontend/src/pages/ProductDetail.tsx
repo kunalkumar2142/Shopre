@@ -18,13 +18,21 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { getApiErrorMessage, getProductBySlug, parseProductsResponse } from "@/apis/apis";
+import {
+  getApiErrorMessage,
+  getProductById,
+  getProductBySlug,
+  parseProductsResponse,
+} from "@/apis/apis";
 import { useCart } from "@/context/CartContext";
 import { isRecentProduct } from "@/lib/product-utils";
 import type { ApiProduct } from "@/types/product";
 
+const UUID_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 const ProductDetail = () => {
-  const { slug } = useParams<{ slug: string }>();
+  const { identifier } = useParams<{ identifier: string }>();
   const { addToCart } = useCart();
   const [product, setProduct] = useState<ApiProduct | null>(null);
   const [loading, setLoading] = useState(true);
@@ -34,7 +42,7 @@ const ProductDetail = () => {
   const [adding, setAdding] = useState(false);
 
   const loadProduct = useCallback(async () => {
-    if (!slug) {
+    if (!identifier) {
       setProduct(null);
       setError("Product not found.");
       setLoading(false);
@@ -44,7 +52,9 @@ const ProductDetail = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await getProductBySlug(slug);
+      const response = UUID_PATTERN.test(identifier)
+        ? await getProductById(identifier)
+        : await getProductBySlug(identifier);
       const [item] = parseProductsResponse(response.data);
       if (!item) {
         setProduct(null);
@@ -64,7 +74,7 @@ const ProductDetail = () => {
     } finally {
       setLoading(false);
     }
-  }, [slug]);
+  }, [identifier]);
 
   useEffect(() => {
     void loadProduct();
@@ -79,7 +89,7 @@ const ProductDetail = () => {
 
   const stock = product?.stock ?? 0;
   const inStock = product?.stock == null || stock > 0;
-  const maxQuantity = stock > 0 ? stock : 1;
+  const maxQuantity = stock > 0 ? stock : 99;
   const images = (product?.images ?? []).filter(Boolean);
   const activeImageUrl = images[activeImage] ?? images[0];
 

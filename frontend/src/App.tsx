@@ -12,6 +12,7 @@ import Orders from "@/pages/Orders"
 import OrderDetail from "@/pages/OrderDetail"
 import ProductDetail from "@/pages/ProductDetail"
 import Help from "@/pages/Help"
+import NotFound from "@/pages/NotFound"
 import { AuthProvider } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
 import Dashboard from './pages/Dashboard'
@@ -31,7 +32,7 @@ function App() {
             <Route path='/signup' element={<SignUp />} />
             <Route path='/dashboard' element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path='/shop' element={<Shop />} />
-            <Route path='/product/:slug' element={<ProductDetail />} />
+            <Route path='/product/:identifier' element={<ProductDetail />} />
             <Route path='/deals' element={<Deals />} />
             <Route path='/new' element={<NewArrivals />} />
             <Route path='/categories/:slug' element={<Category />} />
@@ -44,6 +45,7 @@ function App() {
             <Route path='/checkout' element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
             <Route path='/orders' element={<ProtectedRoute><Orders /></ProtectedRoute>} />
             <Route path='/orders/:id' element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />
+            <Route path='*' element={<NotFound />} />
           </Routes>
           <Toaster richColors closeButton position="top-right" />
         </BrowserRouter>
